@@ -64,7 +64,6 @@ h1 {
     display:flex;
     flex-direction: column;
     align-items: center;
-    border: solid blue 1px;
 }
 
 .digit {
@@ -75,7 +74,7 @@ h1 {
 
 .colon {
     padding: 0;
-    margin: -5px;
+    margin: 0px;
 }
 
 .at {
