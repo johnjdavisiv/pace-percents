@@ -52,6 +52,7 @@ h1 {
 /* Digitbox */
 
 
+
 .clock {
     display: flex;
     flex-direction: row;
@@ -104,12 +105,15 @@ h1 {
 
 }
 
-.svg-arrow:hover {
-    background-color: #bde2ff;
-    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.12);
-}
-
 .svg-arrow:active {
     background-color: #84caff;
     /* color: white; */
+}
+
+/* Hover only on mice */
+@media (hover: hover) {
+    .svg-arrow:hover {
+        background-color: #bde2ff;
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.12);
+    }
 }
