@@ -105,7 +105,7 @@ function increment_pct(change){
     //First case: when decreasing (by 1 or 5)
     if (change < 0 && pct_int + change > 0) {
         pct_int = pct_int + change;
-    } else if (change > 0 && pct_int + change <= 150) {
+    } else if (change > 0 && pct_int + change <= 200) {
         pct_int = pct_int + change;
     }
     pct_text.textContent = pct_int;
@@ -165,9 +165,13 @@ function updateResult(){
     }
     
     new_string = decimal_pace_to_string(new_result)
-
     //Update...
-    calc_text_span.textContent = new_string
+    if (new_string === '0:00'){
+        //hmm...
+        calc_text_span.textContent = '🤔'
+    } else {
+        calc_text_span.textContent = new_string
+    }
 }
 
 
