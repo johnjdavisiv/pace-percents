@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RW Pace Calculator</title>
+    <title>Pace Percentage Calculator - from Running Writings</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="styles.css">
     <script src="scripts.js" defer></script>
@@ -15,7 +15,7 @@
         Running Writings Pace Percent Calculator
     </div>
     <div class="main-content">
-        <h1>Pace</h1>
+        <div class="app-title">Pace</div>
         <div class="clock">
             <div class="digitbox">
                 <button class="material-icons svg-arrow" id="d1-up">expand_less</button>
@@ -27,12 +27,12 @@
             </div>
             <div class="digitbox">
                 <button class="material-icons svg-arrow" id="d2-up">expand_less</button>
-                <div class="digit" id="d2">1</div>
+                <div class="digit" id="d2">0</div>
                 <button class="material-icons svg-arrow" id="d2-down">expand_more</button>
             </div>
             <div class="digitbox">
                 <button class="material-icons svg-arrow" id="d3-up">expand_less</button>
-                <div class="digit" id="d3">2</div>
+                <div class="digit" id="d3">5</div>
                 <button class="material-icons svg-arrow" id="d3-down">expand_more</button>
             </div>
         </div>
@@ -59,9 +59,10 @@
             <a href="#pace-vs-speed" class="i-note">?</a>
         </div>
         <div class="equals">equals</div>
-        <div class="table-space">
-            <table class="pace-table">Table</table>
+        <div class="pace-result-box">
+            <span class="pace-result">9:30</span>
         </div>
+
     </div>
     <div class="footer">
         Footer here

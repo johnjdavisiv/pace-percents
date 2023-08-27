@@ -23,7 +23,7 @@ body {
     width: 100%; /* spans the full viewport width */
     background-color: #333; /* a dark background for contrast */
     color: white; /* white text for visibility against the dark background */
-    padding: 20px; /* some spacing around the content */
+    padding: 12px; /* some spacing around the content */
     text-align: center;
 }
 
@@ -41,9 +41,10 @@ body {
     flex: auto;
 }
 
-h1 {
+.app-title {
     text-align:center;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.2em;
+    font-size:1.5em;
 }
 
 /* Responsive styling */
@@ -69,7 +70,7 @@ h1 {
 .digit {
     font-family:'PT Mono', monospace;
     font-weight:bold;
-    font-size: 5.5em;
+    font-size: 5em;
 }
 
 .colon {
@@ -77,10 +78,10 @@ h1 {
     margin: 0px;
 }
 
-.at {
-    font-family:'Roboto', sans-serif;
-    font-size: 2em;
-    padding: 0 0.5em;
+.pace-result {
+    font-family:'PT Mono', monospace;
+    font-weight:bold;
+    font-size: 5em;
 }
 
 /* Button stuff */
@@ -129,7 +130,7 @@ h1 {
 /* At spacer */
 .spacer {
     padding: 0.2em;
-    font-size: 2.25em;
+    font-size: 2em;
 }
 
 .equals {
