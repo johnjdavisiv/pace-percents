@@ -124,7 +124,28 @@ function increment_pct(change){
     pct_text.textContent = pct_int;
 }
 
+// Change the percent / speed text
 
+let pace_speed_text = document.querySelector('.pace-speed-text');
+const checkbox = document.querySelector('.switch input[type="checkbox"]');
+
+console.log('*******************')
+console.log(checkbox.checked);
+console.log('*******************')
+
+checkbox.addEventListener('change', () => {
+    console.log('CHECKBOX EVENT')
+    flip_pace_speed_text()
+})
+
+function flip_pace_speed_text(){
+    if (checkbox.checked) {
+        //percent of pace
+        pace_speed_text.textContent = 'pace'
+    } else {
+        pace_speed_text.textContent = 'speed'
+    }
+}
 
 
 // Then should do some math...like render table?

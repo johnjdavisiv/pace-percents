@@ -29,10 +29,10 @@ body {
 
 .main-content {
     width: 100%; /* takes full viewport width by default */
-    max-width: 960px; /* won't go beyond 960px wide */
+    max-width: 600px; /* won't go beyond 960px wide */
     flex: 1; /* takes all available space, pushing the footer down */
     background-color: white; /* a white box for content */
-    margin: 20px 0; /* some vertical spacing between header, content, and footer */
+    margin: 0px 0; /* some vertical spacing between header, content, and footer */
     padding: 20px; /* some spacing around the content */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
     display: flex;
@@ -108,6 +108,10 @@ h1 {
         box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.12);
     }
 
+    .i-note:hover{
+        background-color: #bde2ff;
+        cursor:pointer;
+    }
 }
 
 .svg-arrow:active, .pct-button:active {
@@ -116,13 +120,21 @@ h1 {
     /* color: white; */
 }
 
+.i-note:active {
+    color:white;
+    border: solid #84caff 2px;
+}
+
 
 /* At spacer */
-
-
 .spacer {
     padding: 0.2em;
     font-size: 2.25em;
+}
+
+.equals {
+    padding: 0.2em;
+    font-size: 1.5em;
 }
 
 .percent-box {
@@ -157,8 +169,116 @@ h1 {
     justify-content: center;
 }
 
+/* Toggle slider */
+
+/* .percent-box{
+    border: solid red 2px;
+} */
+
+.toggle-box {
+    padding: 0.75em 0;
+    display:flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size:1.25em;
+    /* border: solid red 1px; */
+    width: 70%;
+    justify-content:space-between;
+}
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .3s;
+    transition: .3s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+
+
+  /* Notes */
+
+.pace-speed-text{
+    font-weight: bold;
+}
+
+.i-note {
+    outline: none; /* remove focus outline (consider accessibility) */
+    cursor: pointer;
+    border: solid #007bff 2px;
+    background-color: #ffffff;
+    font-size:1em;
+    width:1.25em;
+    height:1.25em;
+    display:flex;
+    border-radius: 50%;
+    color: #2196F3;
+    align-items: center;
+    justify-content: center; 
+    text-decoration: none;
+}
+
+
 /* Table styling */
 
 .table-space {
     border: solid red 2px;
 }
+
+
+

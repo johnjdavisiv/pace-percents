@@ -9,6 +9,8 @@
     <script src="scripts.js" defer></script>
 </head>
 <body>
+    <!-- Hmm really needs an INNER BOX that contains the stuff
+        , let white expand beyond as needed. iinerb box dicated by pct arrows  -->
     <div class="header">
         Running Writings Pace Percent Calculator
     </div>
@@ -36,6 +38,7 @@
         </div>
         <div class="spacer">at</div>
         <div class="percent-box">
+            <!-- NEEDS TO BE SPACE-AROUND -->
             <button class="material-icons pct-button" id="pct-m5">keyboard_double_arrow_left</button>
             <button class="material-icons pct-button" id="pct-m1">keyboard_arrow_left</button>
             <div class="percent-digits digit">
@@ -47,9 +50,15 @@
             <button class="material-icons pct-button" id="pct-p1">keyboard_arrow_right</button>
             <button class="material-icons pct-button" id="pct-p5">keyboard_double_arrow_right</button>
         </div>
-        <div class="toggle">
-            TOGGLE GOES HERE
+        <div class="toggle-box">
+            <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+            </label>
+            <span class="pace-annote">Percent of <span class="pace-speed-text">pace</span></span>
+            <a href="#pace-vs-speed" class="i-note">?</a>
         </div>
+        <div class="equals">equals</div>
         <div class="table-space">
             <table class="pace-table">Table</table>
         </div>
