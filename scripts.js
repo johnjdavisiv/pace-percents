@@ -5,8 +5,6 @@ let d1 = document.querySelector("#d1");
 
 console.log(parseInt(d1.textContent))
 
-SEC_DIGITS = [1,2,3,4,5,6,7,8,9,0]
-
 const d1_up = document.querySelector('#d1-up');
 const d1_down = document.querySelector('#d1-down');
 
@@ -79,3 +77,4 @@ function increment_minutes(digit_object,change){
     }
 }
 
+// Then should do some math...like render table?
