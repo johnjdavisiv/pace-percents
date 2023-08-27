@@ -275,11 +275,6 @@ body {
 }
 
 
-/* Table styling */
-
-.table-space {
-    border: solid red 2px;
+.author-link{
+    color:white;
 }
-
-
-
