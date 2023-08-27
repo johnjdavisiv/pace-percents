@@ -77,4 +77,59 @@ function increment_minutes(digit_object,change){
     }
 }
 
+
+// Percent changes
+
+let pct_text = document.querySelector(".percent-digits")
+let pct_int = parseInt(pct_text.textContent)
+
+
+// In order left to right...
+const pct_m5 = document.querySelector("#pct-m5")
+pct_m5.addEventListener('click', () => {
+    console.log(pct_int);
+    increment_pct(-5)
+})
+
+const pct_m1 = document.querySelector("#pct-m1")
+pct_m1.addEventListener('click', () => {
+    console.log(pct_int);
+    increment_pct(-1)
+})
+
+const pct_p1 = document.querySelector("#pct-p1")
+pct_p1.addEventListener('click', () => {
+    console.log(pct_int);
+    increment_pct(1)
+})
+
+const pct_p5 = document.querySelector("#pct-p5")
+pct_p5.addEventListener('click', () => {
+    console.log(pct_int);
+    increment_pct(5)
+})
+
+
+
+function increment_pct(change){
+    //First case: when decreasing (by 1 or 5)
+    if (change < 0 && pct_int + change > 0) {
+        pct_int = pct_int + change;
+        console.log('Int changed');
+    } else if (change > 0 && pct_int + change <= 150) {
+        pct_int = pct_int + change;
+
+    }
+
+    pct_text.textContent = pct_int;
+}
+
+
+
+
 // Then should do some math...like render table?
+
+let pace_table = document.querySelector(".pace-table")
+
+
+

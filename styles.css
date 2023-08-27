@@ -35,7 +35,10 @@ body {
     margin: 20px 0; /* some vertical spacing between header, content, and footer */
     padding: 20px; /* some spacing around the content */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: auto;
 }
 
 h1 {
@@ -50,9 +53,6 @@ h1 {
     }
 }
 /* Digitbox */
-
-
-
 .clock {
     display: flex;
     flex-direction: row;
@@ -69,7 +69,7 @@ h1 {
 .digit {
     font-family:'PT Mono', monospace;
     font-weight:bold;
-    font-size: 5em;
+    font-size: 5.5em;
 }
 
 .colon {
@@ -79,19 +79,16 @@ h1 {
 
 .at {
     font-family:'Roboto', sans-serif;
-    font-size:2em;
+    font-size: 2em;
     padding: 0 0.5em;
 }
 
 /* Button stuff */
-
-
 .material-icons{
     color: #007bff;
     background-color: white;
     font-size: 3em;
     font-weight: bold;
-
 }
 
 .svg-arrow {
@@ -102,18 +99,66 @@ h1 {
     padding: 0 0px;
     margin: 4px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* horizontal offset, vertical offset, blur radius, color */
-
-}
-
-.svg-arrow:active {
-    background-color: #84caff;
-    /* color: white; */
 }
 
 /* Hover only on mice */
 @media (hover: hover) {
-    .svg-arrow:hover {
+    .svg-arrow:hover, .pct-button:hover {
         background-color: #bde2ff;
         box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.12);
     }
+
+}
+
+.svg-arrow:active, .pct-button:active {
+    /* Must be AFTER hover def! */
+    background-color: #84caff;
+    /* color: white; */
+}
+
+
+/* At spacer */
+
+
+.spacer {
+    padding: 0.2em;
+    font-size: 2.25em;
+}
+
+.percent-box {
+    /* border: solid blue 2px; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.percent-pct.digit {
+    font-weight: normal;
+    font-size: 3.5em;
+}
+
+.percent-digits.digit {
+    font-size: 3.5em;
+}
+
+.pct-button {
+    font-size: 1.4em;
+    outline: none; /* remove focus outline (consider accessibility) */
+    cursor: pointer;
+    border: solid #007bff 2px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    margin: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+    height: 2em;
+    width: 2em;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+}
+
+/* Table styling */
+
+.table-space {
+    border: solid red 2px;
 }
