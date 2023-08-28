@@ -195,3 +195,88 @@ function decimal_pace_to_string(pace_decimal){
     return res
 }
 
+
+// So the swap button...should swap:
+
+//First let's just make the button itself rotate
+flip_button = document.querySelector('.flip-button');
+console.log(flip_button)
+
+flip_button.addEventListener('click', () => {
+    let at_of_label = document.querySelector('.spacer-label');
+    if (flip_button.classList.contains('flipped')) {
+        //when not flipped, it is 6:00 at..."
+        at_of_label.textContent = 'at'
+        //fire flip callback
+        flip_button.classList.remove('flipped');
+        swapBoxes();
+    } else {
+        at_of_label.textContent = 'of'
+        //fire flip callback
+        flip_button.classList.add('flipped');
+        swapBoxes();
+    }
+});
+
+
+function swapBoxes() {
+    //box1 - pace-box, box2 - spacer, box3 - percent-box
+    let mainContent = document.querySelector('.flip-container');
+
+    const box1 = document.querySelector('.pace-box');
+    const box2 = document.querySelector('.spacer');
+    const box3 = document.querySelector('.percent-box');
+
+
+    // Get computed styles for margins
+    const styleBox1 = window.getComputedStyle(box1);
+    const styleBox2 = window.getComputedStyle(box2);
+    const styleBox3 = window.getComputedStyle(box3);
+
+    // Calculate total heights including margins
+    const totalBox1Height = box1.offsetHeight + parseInt(styleBox1.marginTop) + parseInt(styleBox1.marginBottom);
+    const totalBox2Height = box2.offsetHeight + parseInt(styleBox2.marginTop) + parseInt(styleBox2.marginBottom);
+    const totalBox3Height = box3.offsetHeight + parseInt(styleBox3.marginTop) + parseInt(styleBox3.marginBottom);
+
+    if (box1.nextElementSibling === box2) {
+        // Moving box1 down and box3 up
+        box2.style.opacity = '0';
+        box1.style.transform = `translateY(${totalBox2Height + totalBox3Height}px)`;
+        //box2.style.transform = `translateY(${totalBox3Height - totalBox1Height}px)`;
+        box3.style.transform = `translateY(-${totalBox1Height + totalBox2Height}px)`;
+
+    
+        setTimeout(() => {
+            console.log('IF TRUE FIRED')
+            mainContent.insertBefore(box3, box1);
+            mainContent.insertBefore(box1, null);  // Place box1 at the end
+
+            // Reset the transforms
+            box1.style.transform = '';
+            box3.style.transform = '';
+            box2.style.opacity = '1';
+        }, 400);
+
+    } else {
+        // Moving box3 down and box1 up
+        box2.style.opacity = '0';
+        box1.style.transform = `translateY(-${totalBox2Height + totalBox3Height}px)`;
+        // No translation for box2
+        box2.style.transform = `translateY(${totalBox1Height - totalBox3Height}px)`;
+
+        box3.style.transform = `translateY(${totalBox1Height + totalBox2Height}px)`;
+    
+        setTimeout(() => {
+            mainContent.insertBefore(box1, box3);
+            mainContent.insertBefore(box3, null);  // Place box3 at the end
+
+            // Reset the transforms
+            box1.style.transform = '';
+            box2.style.transform = '';
+            box3.style.transform = '';
+            box2.style.opacity = '1';
+        }, 400);
+    }
+};
+
+

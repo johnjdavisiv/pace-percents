@@ -6,6 +6,13 @@
     box-sizing: border-box;
 }
 
+.material-icons{
+    color: #007bff;
+    background-color: white;
+    font-size: 3em;
+    font-weight: bold;
+}
+
 
 body {
     font-family: 'Roboto', sans-serif;
@@ -27,9 +34,14 @@ body {
     text-align: center;
 }
 
+.flip-container{
+    width: 100%
+}
+
 .main-content {
     width: 100%; /* takes full viewport width by default */
     max-width: 600px; /* won't go beyond 960px wide */
+    min-width: 400px;
     flex: 1; /* takes all available space, pushing the footer down */
     background-color: white; /* a white box for content */
     margin: 0px 0; /* some vertical spacing between header, content, and footer */
@@ -39,6 +51,57 @@ body {
     flex-direction: column;
     align-items: center;
     flex: auto;
+}
+
+.spacer-box.empty {
+    width: 1em;
+}
+
+
+/* box1 - pace-box, box2 - spacer, box3 - percent-box */
+
+.pace-box, .percent-box {
+    transition: transform 0.4s ease; 
+}
+
+.spacer {
+    /* ... (other styles) ... */
+    transition: opacity 0.2s ease; /* Half the time of the transform transition */
+}
+
+
+.flip-button {
+    border:none;
+    font-size:1em;
+    transition: transform 0.4s; /* This will make the rotation smooth */
+    transform-origin: center;   /* This will ensure the rotation happens from the center of the button */
+}
+
+.flipped {
+    transform: rotateZ(180deg); /* This will flip the button 180 degrees along the Y axis */
+}
+
+
+.percent-text {
+    display:flex;
+}
+
+.percent-box {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.arrow-box {
+    display:flex;
+}
+
+.app-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex:auto;
 }
 
 .app-title {
@@ -70,7 +133,7 @@ body {
 .digit {
     font-family:'PT Mono', monospace;
     font-weight:bold;
-    font-size: 5em;
+    font-size: 4.5em;
 }
 
 .colon {
@@ -81,16 +144,11 @@ body {
 .pace-result {
     font-family:'PT Mono', monospace;
     font-weight:bold;
-    font-size: 5em;
+    font-size: 4.5em;
 }
 
 /* Button stuff */
-.material-icons{
-    color: #007bff;
-    background-color: white;
-    font-size: 3em;
-    font-weight: bold;
-}
+
 
 .svg-arrow {
     outline: none; /* remove focus outline (consider accessibility) */
@@ -113,6 +171,11 @@ body {
         background-color: #bde2ff;
         cursor:pointer;
     }
+
+    .flip-button:hover {
+        color: #0056b3;
+        cursor:pointer;
+    }
 }
 
 .svg-arrow:active, .pct-button:active {
@@ -129,8 +192,11 @@ body {
 
 /* At spacer */
 .spacer {
-    padding: 0.2em;
+    padding: 0.5em;
     font-size: 2em;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .equals {
@@ -171,11 +237,6 @@ body {
 }
 
 /* Toggle slider */
-
-/* .percent-box{
-    border: solid red 2px;
-} */
-
 .toggle-box {
     padding: 0.75em 0;
     display:flex;
@@ -183,7 +244,7 @@ body {
     gap: 0.5em;
     font-size:1.25em;
     /* border: solid red 1px; */
-    width: 70%;
+    width: 100%;
     justify-content:space-between;
 }
 
