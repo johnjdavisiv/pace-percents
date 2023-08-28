@@ -6,6 +6,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 .material-icons{
     color: #007bff;
     background-color: white;
@@ -141,10 +145,16 @@ body {
     margin: 0px;
 }
 
-.pace-result {
+.pace-result, .convert-result {
     font-family:'PT Mono', monospace;
     font-weight:bold;
     font-size: 4.5em;
+}
+
+.convert-units, .result-units {
+    font-family:'PT Mono', monospace;
+    font-weight:bold;
+    font-size: 1.5em;
 }
 
 /* Button stuff */
@@ -162,7 +172,7 @@ body {
 
 /* Hover only on mice */
 @media (hover: hover) {
-    .svg-arrow:hover, .pct-button:hover {
+    .svg-arrow:hover, .pct-button:hover, .unit-toggle:hover {
         background-color: #bde2ff;
         box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.12);
     }
@@ -176,6 +186,10 @@ body {
         color: #0056b3;
         cursor:pointer;
     }
+    .unit-toggle:hover{
+        color:black;
+    }
+
 }
 
 .svg-arrow:active, .pct-button:active {
@@ -312,9 +326,48 @@ body {
   }
 
 
+/* To / from units */
+
+.unit-conversion{
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.from-to-container{
+    width:100%;
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    padding: 0.5em 0;
+}
+
+.from-to-text{
+    color:#333;
+    font-size:2.5em;
+}
+
+.unit-toggle{
+    border: none;
+    font-size:1em;
+    border-radius:5px;
+    padding: 0.25em 0.5em;
+    cursor:pointer;
+}
+
+/* IF the to/from unit buttons are active */
+.active {
+    background-color: #2196F3;
+    color:white;
+}
+
+.unit-toggle:active{
+    background-color: #2196F3;
+}
+
 
   /* Notes */
-
 .pace-speed-text{
     font-weight: bold;
 }

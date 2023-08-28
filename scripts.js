@@ -1,6 +1,8 @@
 
 console.log('Scripts loaded');
 
+const TRANSITION_DUR_MS = 400;
+
 let d1 = document.querySelector("#d1");
 
 
@@ -172,8 +174,8 @@ function updateResult(){
     } else {
         calc_text_span.textContent = new_string
     }
+    convertPace();
 }
-
 
 function decimal_pace_to_string(pace_decimal){
     let pace_min = Math.floor(pace_decimal)
@@ -181,7 +183,6 @@ function decimal_pace_to_string(pace_decimal){
     
     let pace_sec = (pace_decimal - pace_min)*60
     //e.g. 9.50 --> 30 
-
     //Deal with e.g. 3:59.9 --> 4:00.0
     if (Math.round(pace_sec) === 60) {
         pace_sec = 0
@@ -189,7 +190,6 @@ function decimal_pace_to_string(pace_decimal){
     } else {
         pace_sec = Math.round(pace_sec);
     }
-
     //To formatted string
     res = `${pace_min}:${pace_sec.toString().padStart(2,'0')}` 
     return res
@@ -216,6 +216,7 @@ flip_button.addEventListener('click', () => {
         flip_button.classList.add('flipped');
         swapBoxes();
     }
+    convertPace()
 });
 
 
@@ -226,7 +227,6 @@ function swapBoxes() {
     const box1 = document.querySelector('.pace-box');
     const box2 = document.querySelector('.spacer');
     const box3 = document.querySelector('.percent-box');
-
 
     // Get computed styles for margins
     const styleBox1 = window.getComputedStyle(box1);
@@ -240,14 +240,12 @@ function swapBoxes() {
 
     if (box1.nextElementSibling === box2) {
         // Moving box1 down and box3 up
-        box2.style.opacity = '0';
+        box2.style.opacity = '0'; // Hide, then show later
         box1.style.transform = `translateY(${totalBox2Height + totalBox3Height}px)`;
         //box2.style.transform = `translateY(${totalBox3Height - totalBox1Height}px)`;
         box3.style.transform = `translateY(-${totalBox1Height + totalBox2Height}px)`;
-
     
         setTimeout(() => {
-            console.log('IF TRUE FIRED')
             mainContent.insertBefore(box3, box1);
             mainContent.insertBefore(box1, null);  // Place box1 at the end
 
@@ -255,7 +253,7 @@ function swapBoxes() {
             box1.style.transform = '';
             box3.style.transform = '';
             box2.style.opacity = '1';
-        }, 400);
+        }, TRANSITION_DUR_MS);
 
     } else {
         // Moving box3 down and box1 up
@@ -263,7 +261,6 @@ function swapBoxes() {
         box1.style.transform = `translateY(-${totalBox2Height + totalBox3Height}px)`;
         // No translation for box2
         box2.style.transform = `translateY(${totalBox1Height - totalBox3Height}px)`;
-
         box3.style.transform = `translateY(${totalBox1Height + totalBox2Height}px)`;
     
         setTimeout(() => {
@@ -275,8 +272,143 @@ function swapBoxes() {
             box2.style.transform = '';
             box3.style.transform = '';
             box2.style.opacity = '1';
-        }, 400);
+        }, TRANSITION_DUR_MS);
     }
 };
+
+
+let from_units_string = '';
+let to_units_string = '';
+
+
+function setFromUnitText(button){
+    const from_units = document.querySelector('.convert-units')
+    from_units_string = button.textContent
+    from_units.textContent = button.textContent
+}
+
+function setToUnitText(button){
+    const to_units = document.querySelector('.result-units')
+    to_units_string = button.textContent
+    to_units.textContent = button.textContent
+}
+
+
+// Unit button parsing
+const from_buttons = document.querySelectorAll('.from-units .unit-toggle');
+const to_buttons = document.querySelectorAll('.to-units .unit-toggle');
+
+from_buttons.forEach(button => {
+    button.addEventListener('click', (e) => {
+        // Remove active class from all buttons
+        from_buttons.forEach(btn => btn.classList.remove('active'));
+        // Toggle the active state of the clicked button
+        e.target.classList.toggle('active');
+        setFromUnitText(button);
+        convertPace();
+        //Scroll so you can see it!
+    });
+});
+
+to_buttons.forEach(button => {
+    button.addEventListener('click', (e) => {
+        // Remove active class from all buttons
+        to_buttons.forEach(btn => btn.classList.remove('active'));
+        // Toggle the active state of the clicked button
+        e.target.classList.toggle('active');
+        setToUnitText(button);
+        convertPace();
+        document.getElementById('convert-res').scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest'
+        });
+    });
+});
+
+//Lol now I need to actually do the unit conversion
+
+
+//Define unit conversions
+
+//from-unit | to-unit : function(pace_in_decimal_minutes) -> res_dec_min
+const convert_dict = {
+    // hack solution for unfinished selections
+    '|': (x) => x,
+    '/mi|': (x) => x,
+    '/km|': (x) => x,
+    '/400m|': (x) => x,
+    '|/mi': (x) => x,
+    '|/km': (x) => x,
+    '|/400m': (x) => x,
+    //now the actual conversions
+    '/mi|/km': function (pace_string){
+        pace_dec = parse_pace(pace_string) //now in decimal minutes
+        conv_dec = pace_dec/1.609344 // km per mile
+        return decimal_pace_to_string(conv_dec)
+    },
+    '/mi|/400m':function (pace_string){
+        pace_dec = parse_pace(pace_string) 
+        conv_dec = pace_dec/1609.344*400 //to 400s
+        return decimal_pace_to_string(conv_dec)
+    },
+    '/km|/mi':function (pace_string){
+        pace_dec = parse_pace(pace_string) 
+        conv_dec = pace_dec/0.62137 // mi per km
+        return decimal_pace_to_string(conv_dec)
+    },
+    '/km|/400m':function (pace_string){
+        pace_dec = parse_pace(pace_string) 
+        conv_dec = pace_dec/2.5 //400s per km
+        return decimal_pace_to_string(conv_dec)
+    },
+    '/400m|/mi':function (pace_string){
+        pace_dec = parse_pace(pace_string) 
+        conv_dec = pace_dec/400*1609.344 // via min per meter
+        return decimal_pace_to_string(conv_dec)
+    },
+    '/400m|/km':function (pace_string){
+        pace_dec = parse_pace(pace_string) 
+        conv_dec = pace_dec*2.5 // simple!
+        return decimal_pace_to_string(conv_dec)
+    },
+}
+
+
+//lol global variables
+function convertPace() {
+    //deal with ::hmm, deal with unit matches
+    console.log(calc_text_span)
+    const pace_res = document.querySelector(".pace-result").textContent;
+
+    console.log('**************************')
+    console.log(pace_res)
+
+    console.log(convert_dict)
+    console.log(`${from_units_string}|${to_units_string}`)
+    console.log('**************************')
+
+    let converted_pace = '';
+
+    //Cases to deal with: incomplete selection
+    if (from_units_string === '' && to_units_string === '') {
+        converted_pace = pace_res;
+    } else if (from_units_string === to_units_string && from_units_string !== '') {
+        converted_pace = pace_res;
+        //DEAL WIHT 0:00 HERE
+    } else {
+        const convert_string = `${from_units_string}|${to_units_string}`
+        const convert_fxn = convert_dict[convert_string]
+
+        //use function
+        converted_pace = convert_fxn(pace_res)
+    }
+
+    //Set with convertdd
+    const convert_result_text = document.querySelector('#convert-res')
+    convert_result_text.textContent = converted_pace
+}
+
+
+
 
 
