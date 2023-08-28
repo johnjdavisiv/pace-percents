@@ -156,6 +156,15 @@ let new_result = 1;
 
 function updateResult(){
     // Construct current pace input
+    let mode_string = document.querySelector('.spacer-label').textContent
+    console.log(mode_string)
+    console.log('^^ mode ^^')
+
+    //when mode is 'at', that means we are finding pace = P percent of RP
+    // (This is what is currently implemented)
+
+    // when mode is 'of', we want what RP is P percent of Pace 
+
     let current_input = parseInt(d1.textContent) + parseInt(d2.textContent + d3.textContent)/60
     // conditional on calcs...
     if (checkbox.checked) {
@@ -200,7 +209,6 @@ function decimal_pace_to_string(pace_decimal){
 
 //First let's just make the button itself rotate
 flip_button = document.querySelector('.flip-button');
-console.log(flip_button)
 
 flip_button.addEventListener('click', () => {
     let at_of_label = document.querySelector('.spacer-label');
@@ -216,7 +224,9 @@ flip_button.addEventListener('click', () => {
         flip_button.classList.add('flipped');
         swapBoxes();
     }
-    convertPace()
+    convertPace();
+    updateResult();
+    console.log('FLIPPINGGGGGG');
 });
 
 
@@ -373,7 +383,6 @@ const convert_dict = {
     },
 }
 
-
 //lol global variables
 function convertPace() {
     //deal with ::hmm, deal with unit matches
@@ -390,20 +399,19 @@ function convertPace() {
     let converted_pace = '';
 
     //Cases to deal with: incomplete selection
-    if (from_units_string === '' && to_units_string === '') {
+    if (pace_res === '🤔') {
+        converted_pace = '🤔' // Hmm...
+    } else if (from_units_string === '' && to_units_string === '') {
         converted_pace = pace_res;
     } else if (from_units_string === to_units_string && from_units_string !== '') {
         converted_pace = pace_res;
-        //DEAL WIHT 0:00 HERE
     } else {
+        //use function from dict
         const convert_string = `${from_units_string}|${to_units_string}`
         const convert_fxn = convert_dict[convert_string]
-
-        //use function
         converted_pace = convert_fxn(pace_res)
     }
-
-    //Set with convertdd
+    //Set the result in DOM
     const convert_result_text = document.querySelector('#convert-res')
     convert_result_text.textContent = converted_pace
 }
