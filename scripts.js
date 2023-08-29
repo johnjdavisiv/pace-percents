@@ -207,6 +207,33 @@ function decimal_pace_to_string(pace_decimal){
     return res
 }
 
+//Could it be this easy? e.g. to get 1:18.2
+function decimal_pace_to_string_dec(pace_decimal){
+    let pace_min = Math.floor(pace_decimal)
+    //Could be zero!! 
+    
+    let pace_sec = (pace_decimal - pace_min)*60
+    let pace_sec_floor = Math.floor(pace_sec)
+    let pace_sec_decimal = pace_sec - Math.floor(pace_sec)
+    //Edge cases galore!
+    if (pace_sec_decimal >= 0.95 && pace_sec_floor === 59){
+        //Deal with xx:59.96
+        pace_min = pace_min + 1;
+        pace_sec_floor = 0;
+        pace_sec_decimal = 0;
+    } else if (pace_sec_decimal >= 0.95) {
+        //deal with xx:49.96 or similar: roll seconds up one, leave minutes alone
+        pace_sec_floor = pace_sec + 1
+        pace_sec_decimal = 0;
+    } else {
+        pace_sec_decimal = Math.round(10*pace_sec_decimal)/10;
+    }
+
+    //To formatted string
+    res = `${pace_min}:${pace_sec_floor.toString().padStart(2,'0')}.${(10*pace_sec_decimal).toString()}` 
+    return res
+}
+
 // So the swap button...should swap:
 //First let's just make the button itself rotate
 flip_button = document.querySelector('.flip-button');
@@ -357,7 +384,7 @@ const convert_dict = {
     '/mi|/400m':function (pace_string){
         pace_dec = parse_pace(pace_string) 
         conv_dec = pace_dec/1609.344*400 //to 400s
-        return decimal_pace_to_string(conv_dec)
+        return decimal_pace_to_string_dec(conv_dec)
     },
     '/km|/mi':function (pace_string){
         pace_dec = parse_pace(pace_string) 
@@ -367,7 +394,7 @@ const convert_dict = {
     '/km|/400m':function (pace_string){
         pace_dec = parse_pace(pace_string) 
         conv_dec = pace_dec/2.5 //400s per km
-        return decimal_pace_to_string(conv_dec)
+        return decimal_pace_to_string_dec(conv_dec)
     },
     '/400m|/mi':function (pace_string){
         pace_dec = parse_pace(pace_string) 
