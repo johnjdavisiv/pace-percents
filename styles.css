@@ -34,9 +34,70 @@ body {
     width: 100%; /* spans the full viewport width */
     background-color: #333; /* a dark background for contrast */
     color: white; /* white text for visibility against the dark background */
-    padding: 12px; /* some spacing around the content */
+    padding: 12px 0; /* some spacing around the content */
+}
+
+.header {
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    border-bottom: solid #333 4px;
+    padding: 0.2em 1em;
+}
+
+.inner-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 0 1em;
+}
+
+h1 {
+    font-size: 1.5em;
+    padding: 0 0 0.5em 0;
+}
+
+
+.footer {
     text-align: center;
 }
+
+img.logo {
+    height: 50px;
+    width: auto;
+}
+
+.logo-link a {
+    color: white;
+    text-decoration: none;
+    font-size:1.5em;
+}
+
+
+.logo-link a:hover{
+    color:#84caff;
+}
+
+.menu {
+    display: flex;
+}
+
+.menu li{
+    list-style: none;
+    padding: 0.2em 0.5em;
+}
+
+.menu a{
+    text-decoration: none;
+    color:white;
+    font-size: 1.25em;
+}
+
+.menu a:hover{
+    color:#84caff;
+}
+
 
 .flip-container{
     width: 100%
@@ -49,12 +110,21 @@ body {
     flex: 1; /* takes all available space, pushing the footer down */
     background-color: white; /* a white box for content */
     margin: 0px 0; /* some vertical spacing between header, content, and footer */
-    padding: 20px; /* some spacing around the content */
+    padding: 10px; /* some spacing around the content */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
     display: flex;
     flex-direction: column;
     align-items: center;
     flex: auto;
+}
+
+.about-container {
+    margin: 10px 0px;
+    line-height: 1.5;
+}
+
+.about-container h2, .about-container h3 {
+    padding: 0.5rem 0;
 }
 
 
@@ -109,7 +179,7 @@ body {
 /* Responsive styling */
 @media (max-width: 980px) { /* slightly bigger than 960px to account for the padding */
     .main-content {
-        padding: 20px 10px; /* reduce horizontal padding on smaller screens */
+        padding: 10px 10px; /* reduce horizontal padding on smaller screens */
     }
 }
 /* Digitbox */
@@ -390,5 +460,13 @@ body {
 
 
 .author-link{
+    color:white;
+}
+
+
+.github-icon {
+    padding: 0 1em;
+    font-size:1.25em;
+    text-decoration: none;
     color:white;
 }
