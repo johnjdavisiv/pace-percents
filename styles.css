@@ -134,6 +134,15 @@ img.logo {
 }
 
 
+h2, h2 {
+    transition: color 1.5s; 
+}
+
+h2:target, h3:target {
+    color: #007bff /* or any "light up" color you prefer */
+}
+
+
 /* box1 - pace-box, box2 - spacer, box3 - percent-box */
 
 .pace-box, .percent-box {
