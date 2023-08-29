@@ -24,12 +24,12 @@
     </div>
     <div class="main-content">
         <div class="app-content">
-            <h1>Pace calculator</h1>
+            <h1>Pace percentage calculator</h1>
             <div class="flip-container">
                 <div class="percent-box">
                     <div class="arrow-box">
-                        <button class="material-icons pct-button" id="pct-m5">keyboard_double_arrow_left</button>
-                        <button class="material-icons pct-button" id="pct-m1">keyboard_arrow_left</button>
+                        <button class="material-icons pct-button" id="pct-m5" title="-5%">keyboard_double_arrow_left</button>
+                        <button class="material-icons pct-button" id="pct-m1" title="-1%">keyboard_arrow_left</button>
                     </div>
                     <div class="percent-text">
                         <div class="percent-digits digit">
@@ -40,14 +40,14 @@
                         </div>
                     </div>
                     <div class="arrow-box">
-                        <button class="material-icons pct-button" id="pct-p1">keyboard_arrow_right</button>
-                        <button class="material-icons pct-button" id="pct-p5">keyboard_double_arrow_right</button>
+                        <button class="material-icons pct-button" id="pct-p1" title="+1%">keyboard_arrow_right</button>
+                        <button class="material-icons pct-button" id="pct-p5" title="+5%">keyboard_double_arrow_right</button>
                     </div>
                 </div>
                 <div class="spacer">
                     <a href="#backward-calcs" class="i-note">?</a>
                     <div class="spacer-box spacer-label">of</div>
-                    <button class="material-icons flip-button">flip_camera_android</button>
+                    <button class="material-icons flip-button" title="Reverse calculations">flip_camera_android</button>
                 </div>
                 <div class="pace-box">
                     <div class="clock">
@@ -112,41 +112,41 @@
             <p>This app calculates running paces for workouts that are designed to be done at specific percentages of race pace</p>
             <p>For example, if your workout is 4 x 1.25 mi at 95% of 5k pace, and your 5k pace is 5:00/mi, you can enter 95% and 5:00 in the app to find the correct pace for your workout (in this example, 5:15/mi).</p>
             <p>If desired, you can also convert your pace to and from mile, kilometer, and 400m splits</p>
-            <p>Percentage-based workouts are used by <a href="https://runningwritings.com/category/renato-canova">Renato Canova</a> and other Italian coaches when planning training sessions for some of the best runners in the world.</p>
+            <p>Percentage-based workouts are used by <a href="https://runningwritings.com/category/renato-canova">Renato Canova</a> and other top coaches when planning training sessions for some of the best runners in the world.</p>
             <p>I've adopted this percentage-based framework in my own <a href="https://runningwritings.com/coaching-and-consulting">coaching</a> and have found it to be an incredibly versatile approach for everything from the 800m to ultra distances.</p>
-            <p>Calculating paces by hand gets tedious, so I made this app for the two most common use cases: calculating paces and percents "forward" and "backward" from a given pace. </p>
+            <p>Calculating paces by hand gets tedious, so I made this app for the two most common use cases: calculating paces and percents "forward" to find workout paces from race pace, and "backward" to find what race pace would result in a given pace and percentage. </p>
             <h3 id="pace-vs-speed">Percent of pace vs. percent of speed<a class="material-icons up" href="#top">arrow_upward</a></h3>
             <p>There are a <a href="https://runningwritings.com/2013/02/brief-thoughts-calculating-percentages.html">few intricacies to calculating percentages</a>; one of these is that percent of speed is not the same things as percent of pace. See the linked article for an in-depth explanation of why.</p>
             <p>Renato Canova's workouts all use percentage of pace. This approach has the advantage of being evenly-spaced and symmetric in increments of pace: 90% of 5:00 mile pace is 5:30, and 80% of 5:00 mile pace is 6:00 (i.e. each 10% jump is 30 seconds per mile). Percent of pace is the approach I use with my own training and coaching.</p>
-            <p>One consequence of the math behind percentage of pace is that faster speeds are more finely-grained, which makes intuitive sense from a coaching perspective: effort-wise, there's a much bigger difference between 3:00/km and 3:05/km than 4:00/km and 4:05/km. Percent of speed works the opposite way: small percentage jumps are very big at high speeds, which is not desirable.</p>
-            <p>Scientific research typically uses percent of speed. Percentage of speed is evenly-spaced and symmetric in terms of speed (e.g. each jump is an equal increment in miles per hour) but not pace.</p>
+            <p>One consequence of the math behind taking percents of pace is that faster speeds are more finely-grained, which makes intuitive sense from a coaching perspective: effort-wise, there's a much bigger difference between 3:00/km and 3:05/km vs. 4:00/km and 4:05/km. Percent of speed works the opposite way: small percentage jumps are very big at high speeds, which is not desirable.</p>
+            <p>Scientific research typically uses percent of speed because of speed's linear relationship with distance covered per unit time. Percent of speed is evenly-spaced and symmetric in terms of speed (e.g. each 10% jump is an equal increment in miles per hour).</p>
             <p>Do note that neither method is symmetric with respect to the reference speed: 120% of 80% of any speed does not return the original speed, regardless of how you define percentages.</p>
-            <h3>Percentages are better than seconds per-mile rules<a class="material-icons up" href="#top">arrow_upward</a></h3>
-            <p>Percentage-based workout paces have a significant advantage over simple additive rules like "tempo pace equals 5k pace plus 20 seconds per mile." These additive rules fail both for very fast and very slow runners; percentages of pace generalize to a much wider range of runners.</p>
+            <h3>Percentages are better than seconds per mile rules<a class="material-icons up" href="#top">arrow_upward</a></h3>
+            <p>Percentage-based workout paces have a significant advantage over simple additive rules like "tempo pace equals 5k pace plus 20 seconds per mile." These additive rules fail both for very fast and very slow runners; percentages of pace generalize to a much wider range of abilities.</p>
             <h3 id="backward-calcs">Forward and backward calculations<a class="material-icons up" href="#top">arrow_upward</a></h3>
-            <p>Often, you'll have a workout that goes better than expected: suppose you ran five miles at 90% of 5k pace and had a great day, averaging 5:24/mi even though your plan was to run 5:30/mi. You can switch "reverse mode" (just click the <span class="material-icons inline-icon">flip_camera_android</span> icon) to figure out what original pace would've yielded 5:24 at 90%—in this case, it's 4:52/mi.</p>
+            <p>Often, you'll have a workout that goes better than expected: suppose you ran five miles at 90% of 5k pace and had a great day, averaging 5:24/mi even though your plan was to run 5:30/mi. You can switch to "reverse mode" (just click the <span class="material-icons inline-icon">flip_camera_android</span> icon) to figure out what original pace would've yielded 5:24 at 90%—in this case, it's 4:52/mi.</p>
             <h3>Unit conversions<a class="material-icons up" href="#top">arrow_upward</a></h2>
             <p>For convenience, I also built in some simple unit conversions. Many of Renato Canova's workouts are kilometer-based, so I like being able to convert to and from miles, kilometers, and (for track workouts) 400m splits.</p>
             <p>You'll notice that the percentage calculations are not affected by the unit conversions—this is by design; 90% of 5:00 is 5:30, regardless of whether that's in minutes per mile, minutes per kilometer, or minutes per 400m.</p>
-            <h3>Some useful pace conversions<a class="material-icons up" href="#top">arrow_upward</a></h3>
+            <h3>The 5% rule and other useful conversions<a class="material-icons up" href="#top">arrow_upward</a></h3>
             <p>One reason percentages of pace are so convenient is the "<strong>5% rule</strong>": roughly speaking, a well-trained runner will slow down by 5% for every doubling of race distance. This means that the following <em>approximate</em> race conversions hold:</p>
             <ul>
                 <li>10k pace is 95% of 5k pace</li>
                 <li>Half marathon pace is 90% of 5k pace or 95% of 10k pace</li>
                 <li> Marathon pace is 95% of half marathon pace, 90% of 10k pace, and (very hesitantly) 85% of 5k pace</li>
             </ul>
-            <p>Additionally, I find the following (again, approximate) physiologically-based markers to be useful:</p>
+            <p>Additionally, I find the following (again, approximate) physiologically-based markers to be useful for planning workouts:</p>
             <ul>
                 <li> Critical speed / critical velocity is 95% of 5k pace</li>
                 <li> Lactate threshold is 91-92% of 5k pace</li>
                 <li> Aerobic threshold is 85% of 5k pace</li>
             </ul>
 
-            <p>Your individual disposition as a runner, and your training status, will of course push these numbers up or down. As an example, with high school runners I almost always use more like 90-91% of 5k pace for lactate threshold because of "aerobic drift" - compared to more experienced runners, high schoolers run the 5k with greater reliance on their glycolytic energy system, and their performance in longer distances is proportionally worse than an experienced runner, even one with the same 5k PR.</p>
+            <p>Your individual disposition as a runner, and your training status, will of course push these numbers up or down. As an example, with high school runners I almost always use more like 90-91% of 5k pace for lactate threshold because of "aerobic drift" - compared to more experienced runners, high schoolers run the 5k with greater reliance on their glycolytic energy system, and their performance in longer distances is proportionally worse when compared to more experienced runners with the same 5k PR.</p>
 
             <p>Conversely, I work with some marathon runners who, in top condition, can run the marathon only 3-4% slower than their half marathon pace, and who have a lactate threshold closer to 93% of 5k pace.</p>
             <h3>Suggested percent-based workouts<a class="material-icons up" href="#top">arrow_upward</a></h2>
-            <p>Here's a small sample of some of my favorite percentage-based workouts that I use with my athletes across a variety of events: </p>
+            <p>Here's a small sample of some of my favorite percentage-based workouts that I use across a wide variety of events: </p>
             <div class="workout-table">
                 <table>
                     <thead>
@@ -165,7 +165,7 @@
                         <tr>
                             <td>5k & up</td>
                             <td>Aerobic base</td>
-                            <td>12 mi long fast run at 80-82% of 5k pace</td>
+                            <td>12 mi long fast run at 80% of 5k pace</td>
                         </tr>
                         <tr>
                             <td>800m</td>
@@ -175,12 +175,12 @@
                         <tr>
                             <td>5k & 10k</td>
                             <td>Specific</td>
-                            <td>3 sets of: (2 km at 95% of 5k, 1-2 min jog, 1 km at 98-101% 5k) w/ 3-5min walk/jog recovery</td>
+                            <td>3 sets of: (2 km at 95% of 5k, 1-2 min jog, 1 km at 98-101% 5k) w/ 3-5min jog recovery</td>
                         </tr>
                         <tr>
                             <td>Half-marathon</td>
                             <td>Specific</td>
-                            <td>10 sets of (1 km at 100-102% HMP, 1 km at 90% HMP)</td>
+                            <td>10 sets of (1 km at 100-102% HMP, 1 km at 88-90% HMP)</td>
                         </tr>
                         <tr>
                             <td>Marathon</td>
@@ -192,11 +192,11 @@
                 
             </div>
             <h2  id="get-updates">Get updates<a class="material-icons up" href="#top">arrow_upward</a></h2>
-            <p>If you want to hear about updates to this app, or find out when I've got a new blog post up, sign up for my email list with this form!</p>
+            <p>If you want to find out when I update this app, or get notified when I build new apps and publish new running research on my website, sign up for my email list with this form!</p>
             <div class="newsletter-block">
                 <script async src="https://eomail6.com/form/187bb3d4-92e9-11ed-8dcb-9536633250ee.js" data-form="187bb3d4-92e9-11ed-8dcb-9536633250ee"></script>
             </div>
-            <p> I have several other tech-based projects and long format articles currently in the works. You'll be the first to know when I have new content coming out.</p>
+            <p> I have several other tech-based projects and long-format articles on running that are currently in the works. You'll be the first to know when I have new content coming out.</p>
             <h2 id="contact">Contact<a class="material-icons up" href="#top">arrow_upward</a></h2>
             <p>If you've got feedback, want to see a new feature, found a bug, or just want to chat, please reach out! I read every email I receive. You can reach me at <strong><a class="email" href="mailto:john@runningwritings.com">john@runningwritings.com</a></strong>.</p>
         </div>

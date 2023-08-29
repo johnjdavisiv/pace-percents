@@ -84,8 +84,11 @@ img.logo {
 
 
 
-.menu {
-    display: flex;
+
+ul.menu {
+    width:100%;
+    display:flex;
+    justify-content:right;
 }
 
 .menu li{
@@ -322,7 +325,7 @@ h2:target, h3:target {
 
 /* At spacer */
 .spacer {
-    padding: 0.4em;
+    padding: 0.4em 0;
     font-size: 1.75em;
     display: flex;
     width: 100%;

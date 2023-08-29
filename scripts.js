@@ -432,3 +432,12 @@ function convertPace() {
     convert_result_text.textContent = converted_pace
 }
 
+// TODO: For 400m splits, if string starts with '0:' then just remove that
+// i.e. '0:56.9' --> '56.9'
+
+
+// TODO - fix ? alignment in html padding
+
+// TODO: lonk to that stock market 50% loss / gain thing?
+
+// Want: if string.starts_with('0:'), string.replace('0:', '')
