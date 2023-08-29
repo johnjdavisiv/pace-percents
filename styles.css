@@ -206,16 +206,16 @@ body {
 
 /* At spacer */
 .spacer {
-    padding: 0.5em;
-    font-size: 2em;
+    padding: 0.4em;
+    font-size: 1.75em;
     display: flex;
     width: 100%;
     justify-content: space-between;
 }
 
 .equals {
-    padding: 0.2em;
-    font-size: 1.5em;
+    padding: 0.4em;
+    font-size: 1.75em;
 }
 
 .percent-box {

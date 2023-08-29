@@ -25,6 +25,29 @@ Think - what about this would goet me a job?
     <div class="main-content">
         <div class="app-content">
             <div class="flip-container">
+                <div class="percent-box">
+                    <div class="arrow-box">
+                        <button class="material-icons pct-button" id="pct-m5">keyboard_double_arrow_left</button>
+                        <button class="material-icons pct-button" id="pct-m1">keyboard_arrow_left</button>
+                    </div>
+                    <div class="percent-text">
+                        <div class="percent-digits digit">
+                            105
+                        </div>
+                        <div class="percent-pct digit">
+                            %
+                        </div>
+                    </div>
+                    <div class="arrow-box">
+                        <button class="material-icons pct-button" id="pct-p1">keyboard_arrow_right</button>
+                        <button class="material-icons pct-button" id="pct-p5">keyboard_double_arrow_right</button>
+                    </div>
+                </div>
+                <div class="spacer">
+                    <div class="spacer-box empty"></div>
+                    <div class="spacer-box spacer-label">of</div>
+                    <button class="material-icons flip-button">flip_camera_android</button>
+                </div>
                 <div class="pace-box">
                     <div class="clock">
                         <div class="digitbox">
@@ -47,29 +70,6 @@ Think - what about this would goet me a job?
                         </div>
                     </div>
                 </div>
-                <div class="spacer">
-                    <div class="spacer-box empty"></div>
-                    <div class="spacer-box spacer-label">of</div>
-                    <button class="material-icons flip-button">flip_camera_android</button>
-                </div>
-                <div class="percent-box">
-                    <div class="arrow-box">
-                        <button class="material-icons pct-button" id="pct-m5">keyboard_double_arrow_left</button>
-                        <button class="material-icons pct-button" id="pct-m1">keyboard_arrow_left</button>
-                    </div>
-                    <div class="percent-text">
-                        <div class="percent-digits digit">
-                            105
-                        </div>
-                        <div class="percent-pct digit">
-                            %
-                        </div>
-                    </div>
-                    <div class="arrow-box">
-                        <button class="material-icons pct-button" id="pct-p1">keyboard_arrow_right</button>
-                        <button class="material-icons pct-button" id="pct-p5">keyboard_double_arrow_right</button>
-                    </div>
-                </div>
             </div>
             <div class="equals">equals</div>
             <div class="pace-result-box">
@@ -77,6 +77,14 @@ Think - what about this would goet me a job?
                 <span class="convert-units"></span>
             </div>
             <div class="unit-conversion">
+                <div class="toggle-box">
+                    <a href="#pace-vs-speed" class="i-note">?</a>
+                    <span class="pace-annote">Percent of <span class="pace-speed-text">pace</span></span>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
                 <div class="from-to-container">
                     <div class="button-group from-units">
                         <button class="unit-toggle" id="from-mi">/mi</button>
@@ -90,14 +98,7 @@ Think - what about this would goet me a job?
                         <button class='unit-toggle' id="to-400m">/400m</button>
                     </div>
                 </div>
-                <div class="toggle-box">
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider round"></span>
-                    </label>
-                    <span class="pace-annote">Percent of <span class="pace-speed-text">pace</span></span>
-                    <a href="#pace-vs-speed" class="i-note">?</a>
-                </div>
+
                 <div class="equals">or</div>
                 <div class="convert-box">
                     <span class="convert-result" id="convert-res">3:33</span>

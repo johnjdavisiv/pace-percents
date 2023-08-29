@@ -160,19 +160,35 @@ function updateResult(){
     console.log(mode_string)
     console.log('^^ mode ^^')
 
-    //when mode is 'at', that means we are finding pace = P percent of RP
+
+    //when mode is 'of', that means we are finding pace = P percent of RP
     // (This is what is currently implemented)
 
-    // when mode is 'of', we want what RP is P percent of Pace 
-
+    // when mode is 'is', we want what RP is P percent of Pace
     let current_input = parseInt(d1.textContent) + parseInt(d2.textContent + d3.textContent)/60
-    // conditional on calcs...
-    if (checkbox.checked) {
-        //percent of pace
-        new_result = current_input * (2 - pct_int/100)
-    } else {
-        //percent of speed
-        new_result = current_input*100/pct_int
+    
+    if (mode_string === 'of') {
+        console.log('USING MODE: STANDARD')
+        // if using percent of PACE
+        if (checkbox.checked) {
+            //percent of pace
+            new_result = current_input * (2 - pct_int/100)
+        } else {
+            //if using percent of speed
+            new_result = current_input*100/pct_int
+        }
+    // ELSE using the inverse mode --> solve for original pace
+    } else if (mode_string === 'is') {
+        console.log('USING MODE: INVERSE')
+        // if using percent of PACE
+        if (checkbox.checked) {
+            //percent of pace 
+            new_result = current_input / (2-pct_int/100)
+        } else {
+            //if using percent of speed
+            new_result = pct_int*current_input/100
+        }
+
     }
     
     new_string = decimal_pace_to_string(new_result)
@@ -212,14 +228,18 @@ flip_button = document.querySelector('.flip-button');
 
 flip_button.addEventListener('click', () => {
     let at_of_label = document.querySelector('.spacer-label');
+    let equals_of_label = document.querySelector('.equals');
+
     if (flip_button.classList.contains('flipped')) {
         //when not flipped, it is 6:00 at..."
-        at_of_label.textContent = 'at'
+        at_of_label.textContent = 'of'
+        equals_of_label.textContent = 'equals'
         //fire flip callback
         flip_button.classList.remove('flipped');
         swapBoxes();
     } else {
-        at_of_label.textContent = 'of'
+        at_of_label.textContent = 'is'
+        equals_of_label.textContent = 'of'
         //fire flip callback
         flip_button.classList.add('flipped');
         swapBoxes();
