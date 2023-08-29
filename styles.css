@@ -69,15 +69,13 @@ img.logo {
 }
 
 .logo-link a {
-    color: white;
+    color: #f7f7f7;
     text-decoration: none;
     font-size:1.5em;
 }
 
 
-.logo-link a:hover{
-    color:#84caff;
-}
+
 
 .menu {
     display: flex;
@@ -90,12 +88,20 @@ img.logo {
 
 .menu a{
     text-decoration: none;
-    color:white;
+    color: #f7f7f7;
     font-size: 1.25em;
 }
 
-.menu a:hover{
-    color:#84caff;
+
+.material-icons.up  {
+    padding: 0 0 0 0.5em;
+    font-size: 1.5rem;
+    color: gray;
+    text-decoration: none;;
+}
+
+.material-icons.up:hover  {
+    color:#007bff;
 }
 
 
@@ -251,6 +257,15 @@ img.logo {
     .unit-toggle:hover{
         color:black;
     }
+
+    .logo-link a:hover{
+        color:#84caff;
+    }
+
+    .menu a:hover{
+        color:#84caff;
+    }
+    
 
 }
 
