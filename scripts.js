@@ -1,11 +1,6 @@
-
-console.log('Scripts loaded');
-
 const TRANSITION_DUR_MS = 400;
 
 let d1 = document.querySelector("#d1");
-
-
 const d1_up = document.querySelector('#d1-up');
 const d1_down = document.querySelector('#d1-down');
 
@@ -79,7 +74,6 @@ function increment_minutes(digit_object,change){
 let pct_text = document.querySelector(".percent-digits")
 let pct_int = parseInt(pct_text.textContent)
 
-
 // In order left to right...
 const pct_m5 = document.querySelector("#pct-m5")
 pct_m5.addEventListener('click', () => {
@@ -100,7 +94,6 @@ const pct_p5 = document.querySelector("#pct-p5")
 pct_p5.addEventListener('click', () => {
     increment_pct(5)
 })
-
 
 
 function increment_pct(change){
@@ -157,9 +150,6 @@ let new_result = 1;
 function updateResult(){
     // Construct current pace input
     let mode_string = document.querySelector('.spacer-label').textContent
-    console.log(mode_string)
-    console.log('^^ mode ^^')
-
 
     //when mode is 'of', that means we are finding pace = P percent of RP
     // (This is what is currently implemented)
@@ -168,7 +158,6 @@ function updateResult(){
     let current_input = parseInt(d1.textContent) + parseInt(d2.textContent + d3.textContent)/60
     
     if (mode_string === 'of') {
-        console.log('USING MODE: STANDARD')
         // if using percent of PACE
         if (checkbox.checked) {
             //percent of pace
@@ -179,7 +168,6 @@ function updateResult(){
         }
     // ELSE using the inverse mode --> solve for original pace
     } else if (mode_string === 'is') {
-        console.log('USING MODE: INVERSE')
         // if using percent of PACE
         if (checkbox.checked) {
             //percent of pace 
@@ -188,7 +176,6 @@ function updateResult(){
             //if using percent of speed
             new_result = pct_int*current_input/100
         }
-
     }
     
     new_string = decimal_pace_to_string(new_result)
@@ -220,9 +207,7 @@ function decimal_pace_to_string(pace_decimal){
     return res
 }
 
-
 // So the swap button...should swap:
-
 //First let's just make the button itself rotate
 flip_button = document.querySelector('.flip-button');
 
@@ -246,7 +231,6 @@ flip_button.addEventListener('click', () => {
     }
     convertPace();
     updateResult();
-    console.log('FLIPPINGGGGGG');
 });
 
 
@@ -306,10 +290,9 @@ function swapBoxes() {
     }
 };
 
-
+// lol globals
 let from_units_string = '';
 let to_units_string = '';
-
 
 function setFromUnitText(button){
     const from_units = document.querySelector('.convert-units')
@@ -322,7 +305,6 @@ function setToUnitText(button){
     to_units_string = button.textContent
     to_units.textContent = button.textContent
 }
-
 
 // Unit button parsing
 const from_buttons = document.querySelectorAll('.from-units .unit-toggle');
@@ -355,14 +337,10 @@ to_buttons.forEach(button => {
     });
 });
 
-//Lol now I need to actually do the unit conversion
-
-
-//Define unit conversions
-
+//Define unit conversions - a dict of functions!
 //from-unit | to-unit : function(pace_in_decimal_minutes) -> res_dec_min
 const convert_dict = {
-    // hack solution for unfinished selections
+    // hack solution for unfinished unit selections
     '|': (x) => x,
     '/mi|': (x) => x,
     '/km|': (x) => x,
@@ -406,18 +384,9 @@ const convert_dict = {
 //lol global variables
 function convertPace() {
     //deal with ::hmm, deal with unit matches
-    console.log(calc_text_span)
     const pace_res = document.querySelector(".pace-result").textContent;
 
-    console.log('**************************')
-    console.log(pace_res)
-
-    console.log(convert_dict)
-    console.log(`${from_units_string}|${to_units_string}`)
-    console.log('**************************')
-
     let converted_pace = '';
-
     //Cases to deal with: incomplete selection
     if (pace_res === '🤔') {
         converted_pace = '🤔' // Hmm...
@@ -435,7 +404,4 @@ function convertPace() {
     const convert_result_text = document.querySelector('#convert-res')
     convert_result_text.textContent = converted_pace
 }
-
-
-
 

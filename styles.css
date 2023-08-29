@@ -95,7 +95,7 @@ img.logo {
 
 .material-icons.up  {
     padding: 0 0 0 0.5em;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: gray;
     text-decoration: none;;
 }
@@ -444,7 +444,7 @@ h2:target, h3:target {
 
 .unit-toggle{
     border: none;
-    font-size:1em;
+    font-size:1.25em;
     border-radius:5px;
     padding: 0.25em 0.5em;
     cursor:pointer;
