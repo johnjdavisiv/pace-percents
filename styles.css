@@ -78,12 +78,8 @@ img.logo {
 .logo-link a {
     color: #f7f7f7;
     text-decoration: none;
-    font-size:1.5em;
+    font-size:1.25em;
 }
-
-
-
-
 
 ul.menu {
     width:100%;
@@ -94,6 +90,7 @@ ul.menu {
 .menu li{
     list-style: none;
     padding: 0.2em 0.5em;
+    flex-shrink:0;
 }
 
 .menu a{
@@ -114,9 +111,6 @@ ul.menu {
     text-decoration: none;;
 }
 
-.material-icons.up:hover  {
-    color:#007bff;
-}
 
 
 .flip-container{
@@ -150,7 +144,7 @@ ul.menu {
 }
 
 
-h2, h2 {
+h2, h3 {
     transition: color 1.5s; 
 }
 
@@ -214,6 +208,7 @@ h2:target, h3:target {
 
 .logo-link {
     display: none;
+    width: 100%
 }
 
 
@@ -304,11 +299,13 @@ h2:target, h3:target {
         color:#84caff;
     }
 
-    .menu a:hover{
+    .menu a:hover {
         color:#84caff;
     }
-    
 
+    .material-icons.up:hover  {
+        color:#007bff;
+    }
 }
 
 .svg-arrow:active, .pct-button:active {
