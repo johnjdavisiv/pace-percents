@@ -206,10 +206,18 @@ function decimal_pace_to_string(pace_decimal){
 function decimal_pace_to_string_dec(pace_decimal){
     let pace_min = Math.floor(pace_decimal)
     //Could be zero!! 
+
+    console.log(`pace_min: ${pace_min}`)
     
     let pace_sec = (pace_decimal - pace_min)*60
+
+    console.log(`pace_sec: ${pace_sec}`)
     let pace_sec_floor = Math.floor(pace_sec)
+    console.log(`pace_sec_floor: ${pace_sec_floor}`)
     let pace_sec_decimal = pace_sec - Math.floor(pace_sec)
+
+    console.log(`pace_sec_decimal: ${pace_sec_decimal}`)
+
     //Edge cases galore!
     if (pace_sec_decimal >= 0.95 && pace_sec_floor === 59){
         //Deal with xx:59.96
@@ -217,8 +225,9 @@ function decimal_pace_to_string_dec(pace_decimal){
         pace_sec_floor = 0;
         pace_sec_decimal = 0;
     } else if (pace_sec_decimal >= 0.95) {
+        console.log('FIRE IF CONDITION')
         //deal with xx:49.96 or similar: roll seconds up one, leave minutes alone
-        pace_sec_floor = pace_sec + 1
+        pace_sec_floor = pace_sec_floor + 1
         pace_sec_decimal = 0;
     } else {
         pace_sec_decimal = Math.round(10*pace_sec_decimal)/10;
@@ -386,8 +395,11 @@ const convert_dict = {
         return decimal_pace_to_string(conv_dec)
     },
     '/km|/400m':function (pace_string){
-        pace_dec = parse_pace(pace_string) 
+        console.log(`PACE STRING: ${pace_string}`)
+        pace_dec = parse_pace(pace_string)
+        console.log(`PARSED PACE: ${pace_dec}`) 
         conv_dec = pace_dec/2.5 //400s per km
+        console.log(`DEC CONV: ${decimal_pace_to_string_dec(conv_dec)}`)
         return decimal_pace_to_string_dec(conv_dec)
     },
     '/400m|/mi':function (pace_string){
@@ -407,6 +419,7 @@ function convertPace() {
     //deal with ::hmm, deal with unit matches
     const pace_res = document.querySelector(".pace-result").textContent;
 
+
     let converted_pace = '';
     //Cases to deal with: incomplete selection
     if (pace_res === '🤔') {
@@ -417,9 +430,11 @@ function convertPace() {
         converted_pace = pace_res;
     } else {
         //use function from dict
+        console.log('**********')
         const convert_string = `${from_units_string}|${to_units_string}`
         const convert_fxn = convert_dict[convert_string]
         converted_pace = convert_fxn(pace_res)
+        console.log('**********')
 
         // Drop 0: for 400s with decimal
         if (converted_pace.substring(0,2) === '0:') {
