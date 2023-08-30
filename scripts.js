@@ -426,6 +426,11 @@ function convertPace() {
         const convert_string = `${from_units_string}|${to_units_string}`
         const convert_fxn = convert_dict[convert_string]
         converted_pace = convert_fxn(pace_res)
+
+        // Drop 0: for 400s with decimal
+        if (converted_pace.substring(0,2) === '0:') {
+            converted_pace = converted_pace.substring(2);
+        }
     }
     //Set the result in DOM
     const convert_result_text = document.querySelector('#convert-res')
