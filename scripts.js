@@ -42,7 +42,6 @@ d3_down.addEventListener('click', () => {
     updateResult();
 });
 
-
 function increment_sec_digit(digit_object, digit_limit, change){
     let digit_val = parseInt(digit_object.textContent);
     // mod ops to circularize
@@ -56,7 +55,6 @@ function increment_sec_digit(digit_object, digit_limit, change){
     digit_object.textContent = digit_val;
 }
 
-
 function increment_minutes(digit_object,change){
     let digit_val = parseInt(digit_object.textContent);
     //Disallow > 60
@@ -68,7 +66,6 @@ function increment_minutes(digit_object,change){
         digit_object.textContent = digit_val + change
     }
 }
-
 
 // Percent changes
 let pct_text = document.querySelector(".percent-digits")
@@ -94,7 +91,6 @@ const pct_p5 = document.querySelector("#pct-p5")
 pct_p5.addEventListener('click', () => {
     increment_pct(5)
 })
-
 
 function increment_pct(change){
     //First case: when decreasing (by 1 or 5)
@@ -144,7 +140,6 @@ function parse_pace(s){
 // pct_int - integer percentage
 // parseInt(d1.textContent)
 // ... for d2 and d3
-
 let new_result = 1;
 
 function updateResult(){
@@ -228,7 +223,6 @@ function decimal_pace_to_string_dec(pace_decimal){
     } else {
         pace_sec_decimal = Math.round(10*pace_sec_decimal)/10;
     }
-
     //To formatted string
     res = `${pace_min}:${pace_sec_floor.toString().padStart(2,'0')}.${(10*pace_sec_decimal).toString()}` 
     return res
@@ -260,7 +254,7 @@ flip_button.addEventListener('click', () => {
     updateResult();
 });
 
-
+//thx ChatGPT
 function swapBoxes() {
     //box1 - pace-box, box2 - spacer, box3 - percent-box
     let mainContent = document.querySelector('.flip-container');
@@ -436,13 +430,3 @@ function convertPace() {
     const convert_result_text = document.querySelector('#convert-res')
     convert_result_text.textContent = converted_pace
 }
-
-// TODO: For 400m splits, if string starts with '0:' then just remove that
-// i.e. '0:56.9' --> '56.9'
-
-
-// TODO - fix ? alignment in html padding
-
-// TODO: lonk to that stock market 50% loss / gain thing?
-
-// Want: if string.starts_with('0:'), string.replace('0:', '')

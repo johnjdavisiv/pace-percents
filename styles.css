@@ -306,6 +306,11 @@ h2:target, h3:target {
     .material-icons.up:hover  {
         color:#007bff;
     }
+    
+    table tbody tr:hover {
+        background-color: #e6e6e6;
+    }
+    
 }
 
 .svg-arrow:active, .pct-button:active {
@@ -553,9 +558,6 @@ table tbody tr:nth-child(odd) {
     background-color: #f9f9f9;
 }
 
-table tbody tr:hover {
-    background-color: #e6e6e6;
-}
 
 
 
