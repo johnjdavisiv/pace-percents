@@ -174,8 +174,9 @@ function updateResult(){
     }
     
     new_string = decimal_pace_to_string(new_result)
+    console.log(new_result)
     //Update...
-    if (new_string === '0:00'){
+    if (new_string === '0:00' || !Number.isFinite(new_result)){
         //hmm...
         calc_text_span.textContent = '🤔'
     } else {
