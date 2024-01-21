@@ -464,25 +464,40 @@ h2:target, h3:target {
     align-items: center;
 }
 
+.from-units {
+    flex: 3 1 0;
+    text-align: center;
+}
+
+.to-units {
+    flex: 3 1 0;
+    text-align: center;
+}
+
 .from-to-container{
     width:100%;
     display:flex;
     justify-content: space-between;
     align-items:center;
-    padding: 0.5em 0;
+    padding: 0.25em 0;
 }
+
 
 .from-to-text{
     color:#333;
-    font-size:2.5em;
+    font-size:2.25em;
+    flex: 1 1 0;
+    text-align: center;
 }
 
 .unit-toggle{
     border: none;
-    font-size:1.25em;
+    font-size:1.2em;
     border-radius:5px;
     padding: 0.25em 0.5em;
+    margin: 0.1em 0em;
     cursor:pointer;
+    flex: 0;
 }
 
 /* IF the to/from unit buttons are active */
@@ -558,6 +573,34 @@ table tbody tr:nth-child(odd) {
     background-color: #f9f9f9;
 }
 
+.article-link-box {
+    border: solid #84caff 2px;
+    padding: 1em;
+    border-radius: 1em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.article-link-box:hover {
+    background-color: #bde2ff;
+    border: solid #2196F3 2px;
+}
+
+.i-note-i {
+     flex-grow: 0;
+     flex-shrink: 0;
+     margin: 0.5em;
+}
+
+.i-note-i:hover {
+    background-color: white;
+}
+
+.rw-link {
+    color:blue;
+    text-align: center;
+}
 
 
 

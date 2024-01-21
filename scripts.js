@@ -203,6 +203,7 @@ function decimal_pace_to_string(pace_decimal){
     return res
 }
 
+
 //Could it be this easy? e.g. to get 1:18.2
 function decimal_pace_to_string_dec(pace_decimal){
     let pace_min = Math.floor(pace_decimal)
@@ -379,6 +380,9 @@ const convert_dict = {
     '|/mi': (x) => x,
     '|/km': (x) => x,
     '|/400m': (x) => x,
+    '|mph': (x) => x,
+    '|km/h': (x) => x,
+    '|m/s': (x) => x,
     //now the actual conversions
     '/mi|/km': function (pace_string){
         pace_dec = parse_pace(pace_string) //now in decimal minutes
@@ -389,6 +393,22 @@ const convert_dict = {
         pace_dec = parse_pace(pace_string) 
         conv_dec = pace_dec/1609.344*400 //to 400s
         return decimal_pace_to_string_dec(conv_dec)
+    },
+    '/mi|mph':function (pace_string){
+        pace_dec = parse_pace(pace_string) 
+        // So this is in minutes per mile
+        conv_dec = 1/(pace_dec/60) 
+        return conv_dec.toFixed(1);
+    },
+    '/mi|km/h':function (pace_string){
+        pace_dec = parse_pace(pace_string) 
+        conv_dec = 1/(pace_dec/1.609344/60) 
+        return conv_dec.toFixed(1);
+    },
+    '/mi|m/s':function (pace_string){
+        pace_dec = parse_pace(pace_string) 
+        conv_dec = 1/(pace_dec*60/1609.344) 
+        return conv_dec.toFixed(2);
     },
     '/km|/mi':function (pace_string){
         pace_dec = parse_pace(pace_string) 
@@ -403,6 +423,21 @@ const convert_dict = {
         console.log(`DEC CONV: ${decimal_pace_to_string_dec(conv_dec)}`)
         return decimal_pace_to_string_dec(conv_dec)
     },
+    '/km|mph':function (pace_string){
+        pace_dec = parse_pace(pace_string) 
+        conv_dec = 1/(pace_dec*1.609344/60) 
+        return conv_dec.toFixed(1);
+    },
+    '/km|km/h':function (pace_string){
+        pace_dec = parse_pace(pace_string) 
+        conv_dec = 1/(pace_dec/60) 
+        return conv_dec.toFixed(1);
+    },
+    '/km|m/s':function (pace_string){
+        pace_dec = parse_pace(pace_string) 
+        conv_dec = 1/(pace_dec*60/1000) 
+        return conv_dec.toFixed(2);
+    },
     '/400m|/mi':function (pace_string){
         pace_dec = parse_pace(pace_string) 
         conv_dec = pace_dec/400*1609.344 // via min per meter
@@ -412,6 +447,21 @@ const convert_dict = {
         pace_dec = parse_pace(pace_string) 
         conv_dec = pace_dec*2.5 // simple!
         return decimal_pace_to_string(conv_dec)
+    },
+    '/400m|mph':function (pace_string){
+        pace_dec = parse_pace(pace_string) 
+        conv_dec = 1/(pace_dec*1609.344/400/60) 
+        return conv_dec.toFixed(1);
+    },
+    '/400m|km/h':function (pace_string){
+        pace_dec = parse_pace(pace_string) 
+        conv_dec = 1/(pace_dec*1000/400/60) 
+        return conv_dec.toFixed(1);
+    },
+    '/400m|m/s':function (pace_string){
+        pace_dec = parse_pace(pace_string) 
+        conv_dec = 1/(pace_dec/400*60) 
+        return conv_dec.toFixed(2);
     },
 }
 
