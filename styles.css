@@ -36,6 +36,16 @@ body {
     background-color: #f7f7f7; /* light gray for some minimal background */
 }
 
+.separator-thick {
+    margin: 20px auto;
+    width: 60px;
+    height: 4px;
+    background-color: #007acc;
+    border: none;
+    border-radius: 2px;
+}
+
+
 
 .header, .footer {
     width: 100%; /* spans the full viewport width */
@@ -574,7 +584,8 @@ table tbody tr:nth-child(odd) {
 }
 
 .article-link-box {
-    border: solid #84caff 2px;
+    border: solid #84caff 3px;
+    background-color: #f0f9ff;
     padding: 1em;
     border-radius: 1em;
     display: flex;
@@ -598,8 +609,9 @@ table tbody tr:nth-child(odd) {
 }
 
 .rw-link {
-    color:blue;
+    color:#2563eb;
     text-align: center;
+    font-weight: bold;;
 }
 
 

@@ -462,7 +462,7 @@ const convert_dict = {
         pace_dec = parse_pace(pace_string) 
         conv_dec = 1/(pace_dec/400*60) 
         return conv_dec.toFixed(2);
-    },
+    }
 }
 
 //lol global variables
@@ -478,7 +478,7 @@ function convertPace() {
     } else if (from_units_string === '' && to_units_string === '') {
         converted_pace = pace_res;
     } else if (from_units_string === to_units_string && from_units_string !== '') {
-        converted_pace = pace_res;
+        converted_pace = pace_res; // TODO: <-- Fix this for 400m splits, optioanlly adding decimal
     } else {
         //use function from dict
         console.log('**********')
