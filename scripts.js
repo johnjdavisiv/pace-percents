@@ -174,7 +174,6 @@ function updateResult(){
     }
     
     new_string = decimal_pace_to_string(new_result)
-    console.log(new_result)
     //Update...
     if (new_string === '0:00' || !Number.isFinite(new_result)){
         //hmm...
@@ -209,16 +208,11 @@ function decimal_pace_to_string_dec(pace_decimal){
     let pace_min = Math.floor(pace_decimal)
     //Could be zero!! 
 
-    console.log(`pace_min: ${pace_min}`)
     
     let pace_sec = (pace_decimal - pace_min)*60
 
-    console.log(`pace_sec: ${pace_sec}`)
     let pace_sec_floor = Math.floor(pace_sec)
-    console.log(`pace_sec_floor: ${pace_sec_floor}`)
     let pace_sec_decimal = pace_sec - Math.floor(pace_sec)
-
-    console.log(`pace_sec_decimal: ${pace_sec_decimal}`)
 
     //Edge cases galore!
     if (pace_sec_decimal >= 0.95 && pace_sec_floor === 59){
@@ -227,7 +221,6 @@ function decimal_pace_to_string_dec(pace_decimal){
         pace_sec_floor = 0;
         pace_sec_decimal = 0;
     } else if (pace_sec_decimal >= 0.95) {
-        console.log('FIRE IF CONDITION')
         //deal with xx:49.96 or similar: roll seconds up one, leave minutes alone
         pace_sec_floor = pace_sec_floor + 1
         pace_sec_decimal = 0;
@@ -416,11 +409,8 @@ const convert_dict = {
         return decimal_pace_to_string(conv_dec)
     },
     '/km|/400m':function (pace_string){
-        console.log(`PACE STRING: ${pace_string}`)
         pace_dec = parse_pace(pace_string)
-        console.log(`PARSED PACE: ${pace_dec}`) 
         conv_dec = pace_dec/2.5 //400s per km
-        console.log(`DEC CONV: ${decimal_pace_to_string_dec(conv_dec)}`)
         return decimal_pace_to_string_dec(conv_dec)
     },
     '/km|mph':function (pace_string){
@@ -481,11 +471,9 @@ function convertPace() {
         converted_pace = pace_res; // TODO: <-- Fix this for 400m splits, optioanlly adding decimal
     } else {
         //use function from dict
-        console.log('**********')
         const convert_string = `${from_units_string}|${to_units_string}`
         const convert_fxn = convert_dict[convert_string]
         converted_pace = convert_fxn(pace_res)
-        console.log('**********')
 
         // Drop 0: for 400s with decimal
         if (converted_pace.substring(0,2) === '0:') {
@@ -496,3 +484,46 @@ function convertPace() {
     const convert_result_text = document.querySelector('#convert-res')
     convert_result_text.textContent = converted_pace
 }
+
+
+// COOKIE - dont' be annoying
+
+// Configuration
+const COOKIE_DURATION_DAYS = 30;
+
+// Cookie helper functions
+function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        let c = cookies[i].trim();
+        if (c.indexOf(nameEQ) === 0) {
+            return c.substring(nameEQ.length, c.length);
+        }
+    }
+    return null;
+}
+
+// Banner functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const banner = document.querySelector('.mee-banner');
+    const closeButton = document.getElementById('mee-banner-close');
+    
+    // Check if user has previously closed the banner
+    if (getCookie('meeBannerClosed') !== 'true') {
+        banner.classList.remove('hidden');
+    }
+    
+    // Handle close button click
+    closeButton.addEventListener('click', function() {
+        banner.classList.add('hidden');
+        setCookie('meeBannerClosed', 'true', COOKIE_DURATION_DAYS);
+    });
+});

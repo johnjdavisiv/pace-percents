@@ -229,7 +229,7 @@ h2:target, h3:target {
     .app-content {
         width: 80%;
     }
-
+    
     .logo-link {
         display: block;
     }
@@ -291,12 +291,12 @@ h2:target, h3:target {
         background-color: #bde2ff;
         box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.12);
     }
-
+    
     .i-note:hover{
         background-color: #bde2ff;
         cursor:pointer;
     }
-
+    
     .flip-button:hover {
         color: #0056b3;
         cursor:pointer;
@@ -304,15 +304,15 @@ h2:target, h3:target {
     .unit-toggle:hover{
         color:black;
     }
-
+    
     .logo-link a:hover{
         color:#84caff;
     }
-
+    
     .menu a:hover {
         color:#84caff;
     }
-
+    
     .material-icons.up:hover  {
         color:#007bff;
     }
@@ -407,17 +407,17 @@ h2:target, h3:target {
     display: inline-block;
     width: 60px;
     height: 34px;
-  }
-  
-  /* Hide default HTML checkbox */
-  .switch input {
+}
+
+/* Hide default HTML checkbox */
+.switch input {
     opacity: 0;
     width: 0;
     height: 0;
-  }
-  
-  /* The slider */
-  .slider {
+}
+
+/* The slider */
+.slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -427,9 +427,9 @@ h2:target, h3:target {
     background-color: #ccc;
     -webkit-transition: .3s;
     transition: .3s;
-  }
-  
-  .slider:before {
+}
+
+.slider:before {
     position: absolute;
     content: "";
     height: 26px;
@@ -439,30 +439,30 @@ h2:target, h3:target {
     background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
-  }
-  
-  input:checked + .slider {
+}
+
+input:checked + .slider {
     background-color: #2196F3;
-  }
-  
-  input:focus + .slider {
+}
+
+input:focus + .slider {
     box-shadow: 0 0 1px #2196F3;
-  }
-  
-  input:checked + .slider:before {
+}
+
+input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
+}
+
+/* Rounded sliders */
+.slider.round {
     border-radius: 34px;
-  }
-  
-  .slider.round:before {
+}
+
+.slider.round:before {
     border-radius: 50%;
-  }
+}
 
 
 /* To / from units */
@@ -521,7 +521,7 @@ h2:target, h3:target {
 }
 
 
-  /* Notes */
+/* Notes */
 .pace-speed-text{
     font-weight: bold;
 }
@@ -595,13 +595,13 @@ table tbody tr:nth-child(odd) {
 
 .article-link-box:hover {
     background-color: #bde2ff;
-    border: solid #2196F3 2px;
+    border: solid #2196F3 3px;
 }
 
 .i-note-i {
-     flex-grow: 0;
-     flex-shrink: 0;
-     margin: 0.5em;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: 0.5em;
 }
 
 .i-note-i:hover {
@@ -614,5 +614,125 @@ table tbody tr:nth-child(odd) {
     font-weight: bold;;
 }
 
+.mee-banner{
+    width: 100%;
+    min-height: 72px;
+    padding: 8px 16px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;  /* Changed from center */
+    font-weight: 600;
+    border-radius: 0;
+}
+
+/* Remove the generic .mee-banner div rule and replace with specific classes */
+
+.banner-left {
+    flex: 0 0 auto;  /* Don't grow, don't shrink, fit content */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;  /* Stick to left */
+}
+
+.banner-middle {
+    flex: 1;  /* Grow to fill available space */
+    display: flex;
+    align-items: center;
+    justify-content: center;  /* Center the text */
+    padding: 0 40px 0 40px;  /* Add some breathing room */
+}
+
+.banner-right {
+    flex: 0 0 auto;  /* Don't grow, don't shrink, fit content */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;  /* Stick to right */
+}
+
+#mee-banner-close{
+    background: none;
+    padding: 0 5px;
+    color: white;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 0%;
+    cursor: pointer;
+}
+
+#mee-banner-close:hover{
+    color:black;
+}
 
 
+.hello-bar--aqua-drift {
+    background:
+    linear-gradient(135deg,
+    #66f1ff 0%,
+    #19c4f2 28%,
+    #0a86d8 62%,
+    #0a5cc5 100%);
+}
+
+.cta-button {
+    background: linear-gradient(135deg, #00A8E8, #00C896);
+    color:  #FFFFFF;
+    padding: 0.8rem 1.1rem;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(0, 168, 232, 0.3);
+    white-space: nowrap;  /* Changed from text-wrap */
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 168, 232, 0.4);
+}
+
+
+.hello-link{
+    text-decoration: none;
+    font-style:italic;
+    color:white;
+}
+
+.hello-link:hover{
+    color:#f472b6;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Mobile swap */
+.banner-text-full {
+    display: inline;
+}
+
+.banner-text-short {
+    display: none;
+}
+
+/* On mobile, swap them */
+@media (max-width: 768px) {
+    .banner-text-full {
+        display: none;
+    }
+    
+    .banner-text-short {
+        display: inline;
+    }
+    
+    .banner-middle {
+        padding: 0 15px;  /* Tighter padding on mobile */
+    }
+    
+    .mee-banner {
+        padding: 8px 8px;  /* Tighter overall padding */
+    }
+}
