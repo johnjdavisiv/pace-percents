@@ -275,6 +275,10 @@ h2:target, h3:target {
 /* Button stuff */
 
 
+button {
+    touch-action: manipulation; /* Prevent double-tap zoom on mobile for faster button interactions */
+}
+
 .svg-arrow {
     outline: none; /* remove focus outline (consider accessibility) */
     cursor: pointer;
