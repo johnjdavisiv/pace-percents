@@ -1,5 +1,17 @@
 const TRANSITION_DUR_MS = 400;
 
+// Default state
+const DEFAULT_STATE = {
+    version: 1,
+    dials: { d1: 5, d2: 0, d3: 0, d4: 0 },
+    pct: 95,
+    decimals_enabled: false,
+    pace_mode: true,    // true = pace (checkbox checked)
+    flip_mode: 'of',
+    from_unit: '',
+    to_unit: ''
+};
+
 let d1 = document.querySelector("#d1");
 let d2 = document.querySelector("#d2");
 let d3 = document.querySelector("#d3");
@@ -406,10 +418,9 @@ from_buttons.forEach(button => {
                 decimal_toggle.classList.remove('is-disabled');
                 decimal_container.classList.remove('hidden');
                 decimals_enabled = true;
-                updateResult();
             }
         }
-        convertPace();
+        updateResult();
     });
 });
 
@@ -420,7 +431,7 @@ to_buttons.forEach(button => {
         // Toggle the active state of the clicked button
         e.target.classList.toggle('active');
         setToUnitText(button);
-        convertPace();
+        updateResult();
         document.getElementById('convert-res').scrollIntoView({
             behavior: 'smooth',
             block: 'nearest'
@@ -613,17 +624,18 @@ function convertPace() {
 }
 
 
-// COOKIE - dont' be annoying
+// ============================================================
+// COOKIE FUNCTIONS
+// ============================================================
 
-// Configuration
-const COOKIE_DURATION_DAYS = 30;
+const BANNER_COOKIE_DAYS = 30;
+const STATE_COOKIE_DAYS = 365;
 
-// Cookie helper functions
 function setCookie(name, value, days) {
     const date = new Date();
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
     const expires = "expires=" + date.toUTCString();
-    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/;SameSite=Lax";
 }
 
 function getCookie(name) {
@@ -632,25 +644,171 @@ function getCookie(name) {
     for (let i = 0; i < cookies.length; i++) {
         let c = cookies[i].trim();
         if (c.indexOf(nameEQ) === 0) {
-            return c.substring(nameEQ.length, c.length);
+            return decodeURIComponent(c.substring(nameEQ.length, c.length));
         }
     }
     return null;
 }
 
-// Banner functionality
+function clearCookie(name) {
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=Lax";
+}
+
+// --- State persistence ---
+
+function saveStateToCookie() {
+    const state = {
+        version: 1,
+        dials: {
+            d1: parseInt(d1.textContent),
+            d2: parseInt(d2.textContent),
+            d3: parseInt(d3.textContent),
+            d4: parseInt(d4.textContent)
+        },
+        pct: pct_int,
+        decimals_enabled: decimals_enabled,
+        pace_mode: checkbox.checked,
+        flip_mode: flip_button.classList.contains('flipped') ? 'is' : 'of',
+        from_unit: from_units_string,
+        to_unit: to_units_string
+    };
+    setCookie('pacePercentsCalc', JSON.stringify(state), STATE_COOKIE_DAYS);
+}
+
+function loadStateFromCookie() {
+    const raw = getCookie('pacePercentsCalc');
+    if (!raw) return null;
+    try {
+        const state = JSON.parse(raw);
+        if (state.version !== 1) return null;
+        return state;
+    } catch (e) {
+        return null;
+    }
+}
+
+function applyState(state) {
+    // 1. Dials
+    d1.textContent = state.dials.d1;
+    d2.textContent = state.dials.d2;
+    d3.textContent = state.dials.d3;
+    d4.textContent = state.dials.d4;
+
+    // 2. Percentage
+    pct_int = state.pct;
+    pct_text.textContent = state.pct;
+
+    // 3. Decimals
+    decimals_enabled = state.decimals_enabled;
+    if (decimals_enabled) {
+        decimal_toggle.classList.remove('is-disabled');
+        decimal_container.classList.remove('hidden');
+    } else {
+        decimal_toggle.classList.add('is-disabled');
+        decimal_container.classList.add('hidden');
+    }
+
+    // 4. Pace vs speed checkbox
+    checkbox.checked = state.pace_mode;
+    pace_speed_text.textContent = state.pace_mode ? 'pace' : 'speed';
+
+    // 5. Flip mode (of vs is)
+    const at_of_label = document.querySelector('.spacer-label');
+    const equals_of_label = document.querySelector('.equals');
+    const mainContent = document.querySelector('.flip-container');
+    const box1 = document.querySelector('.pace-box');
+    const box3 = document.querySelector('.percent-box');
+    const currently_flipped = flip_button.classList.contains('flipped');
+
+    if (state.flip_mode === 'is' && !currently_flipped) {
+        at_of_label.textContent = 'is';
+        equals_of_label.textContent = 'of';
+        flip_button.classList.add('flipped');
+        mainContent.insertBefore(box1, box3);
+        mainContent.insertBefore(box3, null);
+    } else if (state.flip_mode === 'of' && currently_flipped) {
+        at_of_label.textContent = 'of';
+        equals_of_label.textContent = 'equals';
+        flip_button.classList.remove('flipped');
+        // Restore default order: percent-box, spacer, pace-box
+        mainContent.insertBefore(box3, box1);
+        mainContent.insertBefore(box1, null);
+    }
+
+    // 6. From/to unit buttons
+    from_buttons.forEach(btn => btn.classList.remove('active'));
+    if (state.from_unit) {
+        from_buttons.forEach(btn => {
+            if (btn.textContent === state.from_unit) {
+                btn.classList.add('active');
+            }
+        });
+        from_units_string = state.from_unit;
+        document.querySelector('.convert-units').textContent = state.from_unit;
+    } else {
+        from_units_string = '';
+        document.querySelector('.convert-units').textContent = '';
+    }
+
+    to_buttons.forEach(btn => btn.classList.remove('active'));
+    if (state.to_unit) {
+        to_buttons.forEach(btn => {
+            if (btn.textContent === state.to_unit) {
+                btn.classList.add('active');
+            }
+        });
+        to_units_string = state.to_unit;
+        document.querySelector('.result-units').textContent = state.to_unit;
+    } else {
+        to_units_string = '';
+        document.querySelector('.result-units').textContent = '';
+    }
+
+    // 7. Compute result from restored state
+    updateResult();
+}
+
+// --- Save on every state change ---
+// Hook into updateResult to persist state
+const _originalUpdateResult = updateResult;
+updateResult = function() {
+    _originalUpdateResult();
+    saveStateToCookie();
+};
+
+// Also save when unit buttons are clicked (from/to handlers already call convertPace,
+// but the save needs to happen after from_units_string / to_units_string are updated)
+// This is handled by the updateResult wrapper above since unit clicks trigger updateResult
+// or convertPace which is called from updateResult.
+
+// --- Reset button ---
+const reset_button = document.getElementById('reset-button');
+reset_button.addEventListener('click', () => {
+    clearCookie('pacePercentsCalc');
+    applyState(DEFAULT_STATE);
+});
+
+// --- Initialization ---
 document.addEventListener('DOMContentLoaded', function() {
+    // Banner (separate cookie)
     const banner = document.querySelector('.mee-banner');
     const closeButton = document.getElementById('mee-banner-close');
-    
-    // Check if user has previously closed the banner
+
     if (getCookie('meeBannerClosed') !== 'true') {
         banner.classList.remove('hidden');
     }
-    
-    // Handle close button click
+
     closeButton.addEventListener('click', function() {
         banner.classList.add('hidden');
-        setCookie('meeBannerClosed', 'true', COOKIE_DURATION_DAYS);
+        setCookie('meeBannerClosed', 'true', BANNER_COOKIE_DAYS);
     });
+
+    // Calculator state
+    const savedState = loadStateFromCookie();
+    if (savedState) {
+        applyState(savedState);
+    } else {
+        // No cookie — HTML defaults are already set, just compute initial result
+        updateResult();
+    }
 });

@@ -135,6 +135,11 @@
                 </div>
             </div>
         </div>
+        <div class="reset-box">
+            <button class="material-icons flip-button" title="Restore defaults" id="reset-button">history</button>
+            <span class="reset-text">Restore defaults</span>
+            <a href="#calculator-settings" class="i-note">?</a>
+        </div>
         <hr class="separator-thick">
         <div class="article-link-box">
             <a href="https://marathonexcellence.com/?utm_source=rw_apps&utm_medium=webapp&utm_campaign=pace_percents" class="i-note i-note-i">i</a><span>
@@ -148,7 +153,7 @@
                     <p>I've adopted this percentage-based framework in my own <a href="https://runningwritings.com/coaching-and-consulting">coaching</a> and have found it to be an incredibly versatile approach for everything from the 800m to ultra distances.</p>
                     <p>Calculating paces by hand gets tedious, so I made this app for the two most common use cases: calculating paces and percents "forward" to find workout paces from race pace, and "backward" to find what race pace would result in a given pace and percentage. </p>
                     <h3 id="pace-vs-speed">Percent of pace vs. percent of speed<a class="material-icons up" href="#top">arrow_upward</a></h3>
-                    <p>There are a <a href="https://runningwritings.com/2013/02/brief-thoughts-calculating-percentages.html">few intricacies to calculating percentages</a>; one of these is that percent of speed is not the same things as percent of pace. See the linked article for an in-depth explanation of why.</p>
+                    <p>There are a <a href="https://runningwritings.com/2013/02/brief-thoughts-calculating-percentages.html">few intricacies to calculating percentages</a>; one of these is that percent of speed is not the same thing as percent of pace. See the linked article for an in-depth explanation of why.</p>
                     <p>Renato Canova's workouts all use percentage of pace. This approach has the advantage of being evenly-spaced and symmetric in increments of pace: 90% of 5:00 mile pace is 5:30, and 80% of 5:00 mile pace is 6:00 (i.e. each 10% jump is 30 seconds per mile). Percent of pace is the approach I use with my own training and coaching.</p>
                     <p>One consequence of the math behind taking percents of pace is that faster speeds are more finely-grained, which makes intuitive sense from a coaching perspective: effort-wise, there's a much bigger difference between 3:00/km and 3:05/km vs. 4:00/km and 4:05/km. Percent of speed works the opposite way: small percentage jumps are very big at high speeds, which is not desirable.</p>
                     <p>Scientific research typically uses percent of speed because of speed's linear relationship with distance covered per unit time. Percent of speed is evenly-spaced and symmetric in terms of speed (e.g. each 10% jump is an equal increment in miles per hour).</p>
@@ -157,7 +162,7 @@
                     <p>Percentage-based workout paces have a significant advantage over simple additive rules like "tempo pace equals 5k pace plus 20 seconds per mile." These additive rules fail both for very fast and very slow runners; percentages of pace generalize to a much wider range of abilities.</p>
                     <h3 id="backward-calcs">Forward and backward calculations<a class="material-icons up" href="#top">arrow_upward</a></h3>
                     <p>Often, you'll have a workout that goes better than expected: suppose you ran five miles at 90% of 5k pace and had a great day, averaging 5:24/mi even though your plan was to run 5:30/mi. You can switch to "reverse mode" (just click the <span class="material-icons inline-icon">flip_camera_android</span> icon) to figure out what original pace would've yielded 5:24 at 90%—in this case, it's 4:52/mi.</p>
-                    <h3>Unit conversions<a class="material-icons up" href="#top">arrow_upward</a></h2>
+                    <h3>Unit conversions<a class="material-icons up" href="#top">arrow_upward</a></h3>
                         <p>For convenience, I also built in some simple unit conversions. Many of Renato Canova's workouts are kilometer-based, so I like being able to convert to and from miles, kilometers, and (for track workouts) 400m and 200m splits.</p>
                         <p>You'll notice that the percentage calculations are not affected by the unit conversions—this is by design; 90% of 5:00 is 5:30, regardless of whether that's in minutes per mile, minutes per kilometer, or minutes per 400m and minutes per 200m.</p>
                         <p>One note: When converting from 400m and 200m paces, <strong>decimal mode</strong> is automatically enabled to avoid giving the impression of false precision. You can optionally toggle decimal mode off or on with the <span class="inline-button">.00</span> button for any pace conversion if you are looking for better accuracy.</p>
@@ -224,6 +229,8 @@
                                 </table>
                                 
                             </div>
+                            <h2 id="calculator-settings">Calculator settings<a class="material-icons up" href="#top">arrow_upward</a></h2>
+                            <p>This calculator will remember your settings using a cookie. So, when you come back to the calculator later, you'll be able to pick up where you left off. You can reset all settings to their defaults using the <span class="material-icons inline-icon">history</span> button.</p>
                             <h2  id="get-updates">Get updates<a class="material-icons up" href="#top">arrow_upward</a></h2>
                             <p>If you want to find out when I update this app, or get notified when I build new apps and publish new running research on my website, sign up for my email list with this form!</p>
                             <div class="newsletter-block">

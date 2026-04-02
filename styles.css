@@ -567,6 +567,24 @@ input:checked + .slider:before {
 }
 
 
+.reset-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    padding-top: 1em;
+}
+
+.reset-text {
+    font-size: 1.1em;
+    color: #6b7280;
+}
+
+.reset-box button {
+    color: #6b7280;
+    font-size: 2em;
+}
+
 .author-link{
     color:white;
 }
