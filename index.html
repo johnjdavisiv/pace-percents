@@ -34,7 +34,7 @@
     <div class="main-content">
         <div class="app-content">
             <h1>Pace percentage calculator</h1>
-            <div class="flip-container">
+            <div class="flip-container width-80">
                 <div class="percent-box">
                     <div class="arrow-box">
                         <button class="material-icons pct-button" id="pct-m5" title="-5%">keyboard_double_arrow_left</button>
@@ -78,37 +78,53 @@
                             <div class="digit" id="d3">0</div>
                             <button class="material-icons svg-arrow" id="d3-down">expand_more</button>
                         </div>
+                        <div class="dial-container hidden" id="decimal-container">
+                            <div class="digitbox colon">
+                                <span class="digit">.</span>
+                            </div>
+                            <div class="digitbox">
+                                <button class="material-icons svg-arrow" id="d4-up">expand_less</button>
+                                <div class="digit" id="d4">0</div>
+                                <button class="material-icons svg-arrow" id="d4-down">expand_more</button>
+                            </div>
+                        </div>
+                        <div class="hh-00-container">
+                            <div class="digitbox-hh-00-dummy">&nbsp;</div>
+                            <button class="hh-00-button is-disabled" id="decimal-toggle">.00</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="equals">equals</div>
-            <div class="pace-result-box">
+            <div class="equals width-80">equals</div>
+            <div class="pace-result-box width-80">
                 <span class="pace-result">5:15</span>
                 <span class="convert-units"></span>
             </div>
+            <div class="toggle-box width-80">
+                <a href="#pace-vs-speed" class="i-note">?</a>
+                <span class="pace-annote">Percent of <span class="pace-speed-text">pace</span></span>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
             <div class="unit-conversion">
-                <div class="toggle-box">
-                    <a href="#pace-vs-speed" class="i-note">?</a>
-                    <span class="pace-annote">Percent of <span class="pace-speed-text">pace</span></span>
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider round"></span>
-                    </label>
-                </div>
                 <div class="from-to-container">
                     <div class="button-group from-units">
                         <button class="unit-toggle" id="from-mi">/mi</button>
                         <button class="unit-toggle" id="from-km">/km</button>
                         <button class="unit-toggle" id="from-400">/400m</button>
+                        <button class="unit-toggle" id="from-200">/200m</button>
                     </div>
                     <span class="material-icons from-to-text">arrow_right_alt</span>
                     <div class="button-group to-units">
                         <button class="unit-toggle" id="to-mi">/mi</button>
                         <button class="unit-toggle" id="to-km">/km</button>
                         <button class='unit-toggle' id="to-400m">/400m</button>
+                        <button class='unit-toggle' id="to-200m">/200m</button>
                         <button class='unit-toggle' id="to-mph">mph</button>
                         <button class='unit-toggle' id="to-kph">km/h</button>
-                        <button class='unit-toggle' id="to-kph">m/s</button>
+                        <button class='unit-toggle' id="to-ms">m/s</button>
                     </div>
                 </div>
                 
@@ -122,7 +138,7 @@
         <hr class="separator-thick">
         <div class="article-link-box">
             <a href="https://marathonexcellence.com/?utm_source=rw_apps&utm_medium=webapp&utm_campaign=pace_percents" class="i-note i-note-i">i</a><span>
-                To learn how to use percentage-based workouts, check out <a href="https://runningwritings.com/2023/12/percentage-based-training.html" class="rw-link">my article on percentage-based training</a>, and if you're training for the marathon, read my book, <a href="https://marathonexcellence.com/?utm_source=rw_apps&utm_medium=webapp&utm_campaign=pace_percents" class="rw-link plausible-event-name=Banner+MEE+Click">Marathon Exellence for Everyone</a>!</span></div>
+                To learn how to use percentage-based workouts, check out <a href="https://runningwritings.com/2023/12/percentage-based-training.html" class="rw-link">my article on percentage-based training</a>, and if you're training for the marathon, read my book, <a href="https://marathonexcellence.com/?utm_source=rw_apps&utm_medium=webapp&utm_campaign=pace_percents" class="rw-link plausible-event-name=Banner+MEE+Click">Marathon Excellence for Everyone</a>!</span></div>
                 <div class="about-container">
                     <h2 id="how-to-use">How to use<a class="material-icons up" href="#top">arrow_upward</a></h2>
                     <p>This app calculates running paces for workouts that are designed to be done at specific percentages of race pace.</p>
@@ -142,8 +158,9 @@
                     <h3 id="backward-calcs">Forward and backward calculations<a class="material-icons up" href="#top">arrow_upward</a></h3>
                     <p>Often, you'll have a workout that goes better than expected: suppose you ran five miles at 90% of 5k pace and had a great day, averaging 5:24/mi even though your plan was to run 5:30/mi. You can switch to "reverse mode" (just click the <span class="material-icons inline-icon">flip_camera_android</span> icon) to figure out what original pace would've yielded 5:24 at 90%—in this case, it's 4:52/mi.</p>
                     <h3>Unit conversions<a class="material-icons up" href="#top">arrow_upward</a></h2>
-                        <p>For convenience, I also built in some simple unit conversions. Many of Renato Canova's workouts are kilometer-based, so I like being able to convert to and from miles, kilometers, and (for track workouts) 400m splits.</p>
-                        <p>You'll notice that the percentage calculations are not affected by the unit conversions—this is by design; 90% of 5:00 is 5:30, regardless of whether that's in minutes per mile, minutes per kilometer, or minutes per 400m.</p>
+                        <p>For convenience, I also built in some simple unit conversions. Many of Renato Canova's workouts are kilometer-based, so I like being able to convert to and from miles, kilometers, and (for track workouts) 400m and 200m splits.</p>
+                        <p>You'll notice that the percentage calculations are not affected by the unit conversions—this is by design; 90% of 5:00 is 5:30, regardless of whether that's in minutes per mile, minutes per kilometer, or minutes per 400m and minutes per 200m.</p>
+                        <p>One note: When converting from 400m and 200m paces, <strong>decimal mode</strong> is automatically enabled to avoid giving the impression of false precision. You can optionally toggle decimal mode off or on with the <span class="inline-button">.00</span> button for any pace conversion if you are looking for better accuracy.</p>
                         <h3>The 5% rule and other useful conversions<a class="material-icons up" href="#top">arrow_upward</a></h3>
                         <p>One reason percentages of pace are so convenient is the "<strong>5% rule</strong>": roughly speaking, a well-trained runner will slow down by 5% for every doubling of race distance. This means that the following <em>approximate</em> race conversions hold:</p>
                         <ul>
@@ -161,7 +178,7 @@
                         <p>Your individual disposition as a runner, and your training status, will of course push these numbers up or down. As an example, with high school runners I almost always use more like 90-91% of 5k pace for lactate threshold because of "aerobic drift" - compared to more experienced runners, high schoolers run the 5k with greater reliance on their glycolytic energy system, and their performance in longer distances is proportionally worse when compared to more experienced runners with the same 5k PR.</p>
                         
                         <p>Conversely, I work with some marathon runners who, in top condition, can run the marathon only 3-4% slower than their half marathon pace, and who have a lactate threshold closer to 93% of 5k pace.</p>
-                        <h3>Suggested percent-based workouts<a class="material-icons up" href="#top">arrow_upward</a></h2>
+                        <h3>Suggested percent-based workouts<a class="material-icons up" href="#top">arrow_upward</a></h3>
                             <p>Here's a small sample of some of my favorite percentage-based workouts that I use across a wide variety of events: </p>
                             <div class="workout-table">
                                 <table>

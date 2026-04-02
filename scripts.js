@@ -1,6 +1,8 @@
 const TRANSITION_DUR_MS = 400;
 
 let d1 = document.querySelector("#d1");
+let d2 = document.querySelector("#d2");
+let d3 = document.querySelector("#d3");
 const d1_up = document.querySelector('#d1-up');
 const d1_down = document.querySelector('#d1-down');
 
@@ -38,7 +40,42 @@ d3_up.addEventListener('click', () => {
 });
 
 d3_down.addEventListener('click', () => {
-    increment_sec_digit(d3,10,-1,5); //floor of 5
+    increment_sec_digit(d3,10,-1);
+    updateResult();
+});
+
+// Decimal digit (tenths of a second)
+let d4 = document.querySelector("#d4");
+const d4_up = document.querySelector('#d4-up');
+const d4_down = document.querySelector('#d4-down');
+
+d4_up.addEventListener('click', () => {
+    increment_sec_digit(d4,10,1);
+    updateResult();
+});
+
+d4_down.addEventListener('click', () => {
+    increment_sec_digit(d4,10,-1);
+    updateResult();
+});
+
+// .00 button toggle
+const decimal_toggle = document.querySelector('#decimal-toggle');
+const decimal_container = document.querySelector('#decimal-container');
+let decimals_enabled = false;
+
+decimal_toggle.addEventListener('click', (e) => {
+    const btn = e.currentTarget;
+    const wasDisabled = btn.classList.toggle('is-disabled');
+    decimal_container.classList.toggle('hidden', wasDisabled);
+
+    if (wasDisabled) {
+        // Toggled OFF: force decimal to 0 so user doesn't carry a hidden value
+        d4.textContent = 0;
+        decimals_enabled = false;
+    } else {
+        decimals_enabled = true;
+    }
     updateResult();
 });
 
@@ -127,10 +164,20 @@ let calc_text_span = document.querySelector(".pace-result")
 
 
 function parse_pace(s){
-    //Split '9:30' into [9,30] (array of Numbers)
-    pace_arr = s.split(':').map((si) => parseInt(si))
-    //Return as decimal minutes per (mile | km | 400)
-    return pace_arr[0] + pace_arr[1]/60
+    // Handles '9:30', '9:30.5', '50', and '50.1' (no-colon = seconds only)
+    let minutes, sec_str;
+    if (s.includes(':')) {
+        let parts = s.split(':');
+        minutes = parseInt(parts[0]);
+        sec_str = parts[1];
+    } else {
+        minutes = 0;
+        sec_str = s;
+    }
+    let sec_parts = sec_str.split('.');
+    let seconds = parseInt(sec_parts[0]);
+    let decimal = sec_parts.length > 1 ? parseInt(sec_parts[1]) / 10 : 0;
+    return minutes + (seconds + decimal) / 60;
 }
 
 // Any time ANY button is pressed or checkbox is flipped...
@@ -150,8 +197,13 @@ function updateResult(){
     // (This is what is currently implemented)
 
     // when mode is 'is', we want what RP is P percent of Pace
-    let current_input = parseInt(d1.textContent) + parseInt(d2.textContent + d3.textContent)/60
-    
+    let seconds = parseInt(d2.textContent + d3.textContent);
+    if (decimals_enabled) {
+        seconds += parseInt(d4.textContent) / 10;
+    }
+    let current_input = parseInt(d1.textContent) + seconds / 60;
+
+
     if (mode_string === 'of') {
         // if using percent of PACE
         if (checkbox.checked) {
@@ -173,12 +225,18 @@ function updateResult(){
         }
     }
     
-    new_string = decimal_pace_to_string(new_result)
+    let new_string = decimals_enabled
+        ? decimal_pace_to_string_dec(new_result)
+        : decimal_pace_to_string(new_result);
     //Update...
-    if (new_string === '0:00' || !Number.isFinite(new_result)){
+    if (new_string === '0:00' || new_string === '0:00.0' || !Number.isFinite(new_result)){
         //hmm...
         calc_text_span.textContent = '🤔'
     } else {
+        // Drop leading 0: for sub-minute results (e.g. '0:50.1' -> '50.1')
+        if (new_string.substring(0, 2) === '0:') {
+            new_string = new_string.substring(2);
+        }
         calc_text_span.textContent = new_string
     }
     convertPace();
@@ -198,7 +256,7 @@ function decimal_pace_to_string(pace_decimal){
         pace_sec = Math.round(pace_sec);
     }
     //To formatted string
-    res = `${pace_min}:${pace_sec.toString().padStart(2,'0')}` 
+    let res = `${pace_min}:${pace_sec.toString().padStart(2,'0')}`
     return res
 }
 
@@ -228,13 +286,13 @@ function decimal_pace_to_string_dec(pace_decimal){
         pace_sec_decimal = Math.round(10*pace_sec_decimal)/10;
     }
     //To formatted string
-    res = `${pace_min}:${pace_sec_floor.toString().padStart(2,'0')}.${(10*pace_sec_decimal).toString()}` 
+    let res = `${pace_min}:${pace_sec_floor.toString().padStart(2,'0')}.${(10*pace_sec_decimal).toString()}`
     return res
 }
 
 // So the swap button...should swap:
 //First let's just make the button itself rotate
-flip_button = document.querySelector('.flip-button');
+const flip_button = document.querySelector('.flip-button');
 
 flip_button.addEventListener('click', () => {
     let at_of_label = document.querySelector('.spacer-label');
@@ -342,8 +400,16 @@ from_buttons.forEach(button => {
         // Toggle the active state of the clicked button
         e.target.classList.toggle('active');
         setFromUnitText(button);
+        // Auto-enable decimals for sub-minute split units
+        if (button.textContent === '/400m' || button.textContent === '/200m') {
+            if (!decimals_enabled) {
+                decimal_toggle.classList.remove('is-disabled');
+                decimal_container.classList.remove('hidden');
+                decimals_enabled = true;
+                updateResult();
+            }
+        }
         convertPace();
-        //Scroll so you can see it!
     });
 });
 
@@ -362,6 +428,14 @@ to_buttons.forEach(button => {
     });
 });
 
+// Format a converted pace: use decimals if enabled, or always for /400m and /200m
+function format_pace(dec_min, to_unit) {
+    if (decimals_enabled || to_unit === '/400m' || to_unit === '/200m') {
+        return decimal_pace_to_string_dec(dec_min);
+    }
+    return decimal_pace_to_string(dec_min);
+}
+
 //Define unit conversions - a dict of functions!
 //from-unit | to-unit : function(pace_in_decimal_minutes) -> res_dec_min
 const convert_dict = {
@@ -370,87 +444,135 @@ const convert_dict = {
     '/mi|': (x) => x,
     '/km|': (x) => x,
     '/400m|': (x) => x,
+    '/200m|': (x) => x,
     '|/mi': (x) => x,
     '|/km': (x) => x,
     '|/400m': (x) => x,
+    '|/200m': (x) => x,
     '|mph': (x) => x,
     '|km/h': (x) => x,
     '|m/s': (x) => x,
     //now the actual conversions
     '/mi|/km': function (pace_string){
-        pace_dec = parse_pace(pace_string) //now in decimal minutes
-        conv_dec = pace_dec/1.609344 // km per mile
-        return decimal_pace_to_string(conv_dec)
+        let pace_dec = parse_pace(pace_string) //now in decimal minutes
+        let conv_dec = pace_dec/1.609344 // km per mile
+        return format_pace(conv_dec, '/km')
     },
     '/mi|/400m':function (pace_string){
-        pace_dec = parse_pace(pace_string) 
-        conv_dec = pace_dec/1609.344*400 //to 400s
-        return decimal_pace_to_string_dec(conv_dec)
+        let pace_dec = parse_pace(pace_string)
+        let conv_dec = pace_dec/1609.344*400 //to 400s
+        return format_pace(conv_dec, '/400m')
+    },
+    '/mi|/200m':function (pace_string){
+        let pace_dec = parse_pace(pace_string)
+        let conv_dec = pace_dec/1609.344*200
+        return format_pace(conv_dec, '/200m')
     },
     '/mi|mph':function (pace_string){
-        pace_dec = parse_pace(pace_string) 
+        let pace_dec = parse_pace(pace_string) 
         // So this is in minutes per mile
-        conv_dec = 1/(pace_dec/60) 
+        let conv_dec = 1/(pace_dec/60) 
         return conv_dec.toFixed(1);
     },
     '/mi|km/h':function (pace_string){
-        pace_dec = parse_pace(pace_string) 
-        conv_dec = 1/(pace_dec/1.609344/60) 
+        let pace_dec = parse_pace(pace_string) 
+        let conv_dec = 1/(pace_dec/1.609344/60) 
         return conv_dec.toFixed(1);
     },
     '/mi|m/s':function (pace_string){
-        pace_dec = parse_pace(pace_string) 
-        conv_dec = 1/(pace_dec*60/1609.344) 
+        let pace_dec = parse_pace(pace_string) 
+        let conv_dec = 1/(pace_dec*60/1609.344) 
         return conv_dec.toFixed(2);
     },
     '/km|/mi':function (pace_string){
-        pace_dec = parse_pace(pace_string) 
-        conv_dec = pace_dec/0.62137 // mi per km
-        return decimal_pace_to_string(conv_dec)
+        let pace_dec = parse_pace(pace_string)
+        let conv_dec = pace_dec/(1/1.609344) // mi per km
+        return format_pace(conv_dec, '/mi')
     },
     '/km|/400m':function (pace_string){
-        pace_dec = parse_pace(pace_string)
-        conv_dec = pace_dec/2.5 //400s per km
-        return decimal_pace_to_string_dec(conv_dec)
+        let pace_dec = parse_pace(pace_string)
+        let conv_dec = pace_dec/2.5 //400s per km
+        return format_pace(conv_dec, '/400m')
+    },
+    '/km|/200m':function (pace_string){
+        let pace_dec = parse_pace(pace_string)
+        let conv_dec = pace_dec/5 //200s per km
+        return format_pace(conv_dec, '/200m')
     },
     '/km|mph':function (pace_string){
-        pace_dec = parse_pace(pace_string) 
-        conv_dec = 1/(pace_dec*1.609344/60) 
+        let pace_dec = parse_pace(pace_string) 
+        let conv_dec = 1/(pace_dec*1.609344/60) 
         return conv_dec.toFixed(1);
     },
     '/km|km/h':function (pace_string){
-        pace_dec = parse_pace(pace_string) 
-        conv_dec = 1/(pace_dec/60) 
+        let pace_dec = parse_pace(pace_string) 
+        let conv_dec = 1/(pace_dec/60) 
         return conv_dec.toFixed(1);
     },
     '/km|m/s':function (pace_string){
-        pace_dec = parse_pace(pace_string) 
-        conv_dec = 1/(pace_dec*60/1000) 
+        let pace_dec = parse_pace(pace_string) 
+        let conv_dec = 1/(pace_dec*60/1000) 
         return conv_dec.toFixed(2);
     },
     '/400m|/mi':function (pace_string){
-        pace_dec = parse_pace(pace_string) 
-        conv_dec = pace_dec/400*1609.344 // via min per meter
-        return decimal_pace_to_string(conv_dec)
+        let pace_dec = parse_pace(pace_string)
+        let conv_dec = pace_dec/400*1609.344 // via min per meter
+        return format_pace(conv_dec, '/mi')
     },
     '/400m|/km':function (pace_string){
-        pace_dec = parse_pace(pace_string) 
-        conv_dec = pace_dec*2.5 // simple!
-        return decimal_pace_to_string(conv_dec)
+        let pace_dec = parse_pace(pace_string)
+        let conv_dec = pace_dec*2.5 // simple!
+        return format_pace(conv_dec, '/km')
     },
     '/400m|mph':function (pace_string){
-        pace_dec = parse_pace(pace_string) 
-        conv_dec = 1/(pace_dec*1609.344/400/60) 
+        let pace_dec = parse_pace(pace_string) 
+        let conv_dec = 1/(pace_dec*1609.344/400/60) 
         return conv_dec.toFixed(1);
     },
     '/400m|km/h':function (pace_string){
-        pace_dec = parse_pace(pace_string) 
-        conv_dec = 1/(pace_dec*1000/400/60) 
+        let pace_dec = parse_pace(pace_string) 
+        let conv_dec = 1/(pace_dec*1000/400/60) 
         return conv_dec.toFixed(1);
     },
+    '/400m|/200m':function (pace_string){
+        let pace_dec = parse_pace(pace_string)
+        let conv_dec = pace_dec/2
+        return format_pace(conv_dec, '/200m')
+    },
     '/400m|m/s':function (pace_string){
-        pace_dec = parse_pace(pace_string) 
-        conv_dec = 1/(pace_dec/400*60) 
+        let pace_dec = parse_pace(pace_string)
+        let conv_dec = 1/(pace_dec/400*60)
+        return conv_dec.toFixed(2);
+    },
+    // /200m conversions
+    '/200m|/mi':function (pace_string){
+        let pace_dec = parse_pace(pace_string)
+        let conv_dec = pace_dec/200*1609.344
+        return format_pace(conv_dec, '/mi')
+    },
+    '/200m|/km':function (pace_string){
+        let pace_dec = parse_pace(pace_string)
+        let conv_dec = pace_dec*5
+        return format_pace(conv_dec, '/km')
+    },
+    '/200m|/400m':function (pace_string){
+        let pace_dec = parse_pace(pace_string)
+        let conv_dec = pace_dec*2
+        return format_pace(conv_dec, '/400m')
+    },
+    '/200m|mph':function (pace_string){
+        let pace_dec = parse_pace(pace_string)
+        let conv_dec = 1/(pace_dec*1609.344/200/60)
+        return conv_dec.toFixed(1);
+    },
+    '/200m|km/h':function (pace_string){
+        let pace_dec = parse_pace(pace_string)
+        let conv_dec = 1/(pace_dec*1000/200/60)
+        return conv_dec.toFixed(1);
+    },
+    '/200m|m/s':function (pace_string){
+        let pace_dec = parse_pace(pace_string)
+        let conv_dec = 1/(pace_dec/200*60)
         return conv_dec.toFixed(2);
     }
 }
@@ -468,7 +590,12 @@ function convertPace() {
     } else if (from_units_string === '' && to_units_string === '') {
         converted_pace = pace_res;
     } else if (from_units_string === to_units_string && from_units_string !== '') {
-        converted_pace = pace_res; // TODO: <-- Fix this for 400m splits, optioanlly adding decimal
+        // Same unit: re-format for /400m and /200m to ensure decimals
+        if (from_units_string === '/400m' || from_units_string === '/200m') {
+            converted_pace = format_pace(parse_pace(pace_res), from_units_string);
+        } else {
+            converted_pace = pace_res;
+        }
     } else {
         //use function from dict
         const convert_string = `${from_units_string}|${to_units_string}`
