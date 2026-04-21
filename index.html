@@ -7,8 +7,11 @@
     <link rel="icon" href="images/RW-favicon.png" type="image/png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="styles.css?v=1.1.0">
-    <script src="scripts.js?v=1.1.0" defer></script>
+    <link rel="stylesheet" type="text/css" href="styles.css?v=1.2.0">
+    <link rel="stylesheet" href="app-gallery.css">
+    <script src="scripts.js?v=1.2.0" defer></script>
+    <script src="apps.js" defer></script>
+    <script src="app-gallery.js" defer></script>
     <script defer data-domain="apps.runningwritings.com" src="https://plausible.io/js/script.tagged-events.js"></script>
 </head>
 <body>
@@ -140,7 +143,15 @@
             <span class="reset-text">Restore defaults</span>
             <a href="#calculator-settings" class="i-note">?</a>
         </div>
+        <div class="remember-box">
+            <span class="remember-text">Remember settings</span>
+            <label class="switch">
+                <input type="checkbox" id="remember-toggle" checked>
+                <span class="slider round"></span>
+            </label>
+        </div>
         <hr class="separator-thick">
+        <div class="rw-app-gallery" data-current="pace-percent"></div>
         <div class="article-link-box">
             <a href="https://marathonexcellence.com/?utm_source=rw_apps&utm_medium=webapp&utm_campaign=pace_percents" class="i-note i-note-i">i</a><span>
                 To learn how to use percentage-based workouts, check out <a href="https://runningwritings.com/2023/12/percentage-based-training.html" class="rw-link">my article on percentage-based training</a>, and if you're training for the marathon, read my book, <a href="https://marathonexcellence.com/?utm_source=rw_apps&utm_medium=webapp&utm_campaign=pace_percents" class="rw-link plausible-event-name=Banner+MEE+Click">Marathon Excellence for Everyone</a>!</span></div>

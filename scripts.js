@@ -9,8 +9,11 @@ const DEFAULT_STATE = {
     pace_mode: true,    // true = pace (checkbox checked)
     flip_mode: 'of',
     from_unit: '',
-    to_unit: ''
+    to_unit: '',
+    remember_pace: true
 };
+
+let remember_pace = true;
 
 let d1 = document.querySelector("#d1");
 let d2 = document.querySelector("#d2");
@@ -612,11 +615,10 @@ function convertPace() {
         const convert_string = `${from_units_string}|${to_units_string}`
         const convert_fxn = convert_dict[convert_string]
         converted_pace = convert_fxn(pace_res)
-
-        // Drop 0: for 400s with decimal
-        if (converted_pace.substring(0,2) === '0:') {
-            converted_pace = converted_pace.substring(2);
-        }
+    }
+    // Drop leading 0: for sub-minute results (e.g. '0:57.0' -> '57.0')
+    if (converted_pace.substring(0,2) === '0:') {
+        converted_pace = converted_pace.substring(2);
     }
     //Set the result in DOM
     const convert_result_text = document.querySelector('#convert-res')
@@ -670,7 +672,8 @@ function saveStateToCookie() {
         pace_mode: checkbox.checked,
         flip_mode: flip_button.classList.contains('flipped') ? 'is' : 'of',
         from_unit: from_units_string,
-        to_unit: to_units_string
+        to_unit: to_units_string,
+        remember_pace: remember_pace
     };
     setCookie('pacePercentsCalc', JSON.stringify(state), STATE_COOKIE_DAYS);
 }
@@ -784,8 +787,19 @@ updateResult = function() {
 // --- Reset button ---
 const reset_button = document.getElementById('reset-button');
 reset_button.addEventListener('click', () => {
+    // Preserve the user's remember-pace preference across resets
+    const preserved_remember = remember_pace;
     clearCookie('pacePercentsCalc');
     applyState(DEFAULT_STATE);
+    remember_pace = preserved_remember;
+    saveStateToCookie();
+});
+
+// --- Remember-pace toggle ---
+const remember_toggle = document.getElementById('remember-toggle');
+remember_toggle.addEventListener('change', () => {
+    remember_pace = remember_toggle.checked;
+    saveStateToCookie();
 });
 
 // --- Initialization ---
@@ -806,7 +820,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Calculator state
     const savedState = loadStateFromCookie();
     if (savedState) {
-        applyState(savedState);
+        // Old cookies (pre-remember-pace) are missing this field — treat as true
+        const should_remember = savedState.remember_pace !== false;
+        remember_pace = should_remember;
+        remember_toggle.checked = should_remember;
+        if (should_remember) {
+            applyState(savedState);
+        } else {
+            // Honor the opt-out: show defaults, but keep the cookie updating
+            updateResult();
+        }
     } else {
         // No cookie — HTML defaults are already set, just compute initial result
         updateResult();
