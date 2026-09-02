@@ -107,7 +107,7 @@
                 <a href="#pace-vs-speed" class="i-note">?</a>
                 <span class="pace-annote">Percent of <span class="pace-speed-text">pace</span></span>
                 <label class="switch">
-                    <input type="checkbox" checked>
+                    <input type="checkbox" id="basis-toggle" checked>
                     <span class="slider round"></span>
                 </label>
             </div>
@@ -172,7 +172,7 @@
                     <h3>Percentages are better than seconds per mile rules<a class="material-icons up" href="#top">arrow_upward</a></h3>
                     <p>Percentage-based workout paces have a significant advantage over simple additive rules like "tempo pace equals 5k pace plus 20 seconds per mile." These additive rules fail both for very fast and very slow runners; percentages of pace generalize to a much wider range of abilities.</p>
                     <h3 id="backward-calcs">Forward and backward calculations<a class="material-icons up" href="#top">arrow_upward</a></h3>
-                    <p>Often, you'll have a workout that goes better than expected: suppose you ran five miles at 90% of 5k pace and had a great day, averaging 5:24/mi even though your plan was to run 5:30/mi. You can switch to "reverse mode" (just click the <span class="material-icons inline-icon">flip_camera_android</span> icon) to figure out what original pace would've yielded 5:24 at 90%—in this case, it's 4:52/mi.</p>
+                    <p>Often, you'll have a workout that goes better than expected: suppose you ran five miles at 90% of 5k pace and had a great day, averaging 5:24/mi even though your plan was to run 5:30/mi. You can switch to "reverse mode" (just click the <span class="material-icons inline-icon">flip_camera_android</span> icon) to figure out what original pace would've yielded 5:24 at 90%—in this case, it's 4:55/mi.</p>
                     <h3>Unit conversions<a class="material-icons up" href="#top">arrow_upward</a></h3>
                         <p>For convenience, I also built in some simple unit conversions. Many of Renato Canova's workouts are kilometer-based, so I like being able to convert to and from miles, kilometers, and (for track workouts) 400m and 200m splits.</p>
                         <p>You'll notice that the percentage calculations are not affected by the unit conversions—this is by design; 90% of 5:00 is 5:30, regardless of whether that's in minutes per mile, minutes per kilometer, or minutes per 400m and minutes per 200m.</p>

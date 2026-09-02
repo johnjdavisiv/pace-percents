@@ -103,7 +103,6 @@ function increment_sec_digit(digit_object, digit_limit, change){
     if (change === -1) {
         digit_val = (digit_val - 1 + digit_limit) % digit_limit;
     }
-    // DEAL WITH 0:00 SOMEHOW...
     digit_object.textContent = digit_val;
 }
 
@@ -145,19 +144,15 @@ pct_p5.addEventListener('click', () => {
 })
 
 function increment_pct(change){
-    //First case: when decreasing (by 1 or 5)
-    if (change < 0 && pct_int + change > 0) {
-        pct_int = pct_int + change;
-    } else if (change > 0 && pct_int + change <= 200) {
-        pct_int = pct_int + change;
-    }
+    //Clamp to 1-200 instead of rejecting the step (so -5 from 5% lands on 1%)
+    pct_int = Math.min(200, Math.max(1, pct_int + change));
     pct_text.textContent = pct_int;
     updateResult();
 }
 
 // Change the percent / speed text
 let pace_speed_text = document.querySelector('.pace-speed-text');
-const checkbox = document.querySelector('.switch input[type="checkbox"]');
+const checkbox = document.querySelector('#basis-toggle');
 
 checkbox.addEventListener('change', () => {
     flip_pace_speed_text()
@@ -177,23 +172,6 @@ function flip_pace_speed_text(){
 // Deal with changes of result
 let calc_text_span = document.querySelector(".pace-result")
 
-
-function parse_pace(s){
-    // Handles '9:30', '9:30.5', '50', and '50.1' (no-colon = seconds only)
-    let minutes, sec_str;
-    if (s.includes(':')) {
-        let parts = s.split(':');
-        minutes = parseInt(parts[0]);
-        sec_str = parts[1];
-    } else {
-        minutes = 0;
-        sec_str = s;
-    }
-    let sec_parts = sec_str.split('.');
-    let seconds = parseInt(sec_parts[0]);
-    let decimal = sec_parts.length > 1 ? parseInt(sec_parts[1]) / 10 : 0;
-    return minutes + (seconds + decimal) / 60;
-}
 
 // Any time ANY button is pressed or checkbox is flipped...
 // we should fire an updateResult() event
@@ -258,18 +236,11 @@ function updateResult(){
 }
 
 function decimal_pace_to_string(pace_decimal){
-    let pace_min = Math.floor(pace_decimal)
-    //Could be zero!! 
-    
-    let pace_sec = (pace_decimal - pace_min)*60
-    //e.g. 9.50 --> 30 
-    //Deal with e.g. 3:59.9 --> 4:00.0
-    if (Math.round(pace_sec) === 60) {
-        pace_sec = 0
-        pace_min = pace_min+1;
-    } else {
-        pace_sec = Math.round(pace_sec);
-    }
+    //Round on whole seconds, so exact half-seconds round up and 3:59.6 --> 4:00
+    let total_sec = Math.round(pace_decimal*60)
+    let pace_min = Math.floor(total_sec/60)
+    //Could be zero!!
+    let pace_sec = total_sec % 60
     //To formatted string
     let res = `${pace_min}:${pace_sec.toString().padStart(2,'0')}`
     return res
@@ -278,30 +249,14 @@ function decimal_pace_to_string(pace_decimal){
 
 //Could it be this easy? e.g. to get 1:18.2
 function decimal_pace_to_string_dec(pace_decimal){
-    let pace_min = Math.floor(pace_decimal)
-    //Could be zero!! 
-
-    
-    let pace_sec = (pace_decimal - pace_min)*60
-
-    let pace_sec_floor = Math.floor(pace_sec)
-    let pace_sec_decimal = pace_sec - Math.floor(pace_sec)
-
-    //Edge cases galore!
-    if (pace_sec_decimal >= 0.95 && pace_sec_floor === 59){
-        //Deal with xx:59.96
-        pace_min = pace_min + 1;
-        pace_sec_floor = 0;
-        pace_sec_decimal = 0;
-    } else if (pace_sec_decimal >= 0.95) {
-        //deal with xx:49.96 or similar: roll seconds up one, leave minutes alone
-        pace_sec_floor = pace_sec_floor + 1
-        pace_sec_decimal = 0;
-    } else {
-        pace_sec_decimal = Math.round(10*pace_sec_decimal)/10;
-    }
+    //Round on whole tenths of a second - no edge cases, and exact ties round up
+    let total_tenths = Math.round(pace_decimal*600)
+    let pace_min = Math.floor(total_tenths/600)
+    //Could be zero!!
+    let pace_sec_floor = Math.floor(total_tenths/10) % 60
+    let pace_sec_tenths = total_tenths % 10
     //To formatted string
-    let res = `${pace_min}:${pace_sec_floor.toString().padStart(2,'0')}.${(10*pace_sec_decimal).toString()}`
+    let res = `${pace_min}:${pace_sec_floor.toString().padStart(2,'0')}.${pace_sec_tenths.toString()}`
     return res
 }
 
@@ -327,9 +282,27 @@ flip_button.addEventListener('click', () => {
         flip_button.classList.add('flipped');
         swapBoxes();
     }
-    convertPace();
     updateResult();
 });
+
+//Pending swapBoxes() animation, so a reset mid-flip can cancel it
+let swap_timeout_id = null;
+
+function cancelSwapBoxes() {
+    if (swap_timeout_id === null) {
+        return;
+    }
+    clearTimeout(swap_timeout_id);
+    swap_timeout_id = null;
+    //The cancelled callback would have cleaned these up
+    const box1 = document.querySelector('.pace-box');
+    const box2 = document.querySelector('.spacer');
+    const box3 = document.querySelector('.percent-box');
+    box1.style.transform = '';
+    box2.style.transform = '';
+    box3.style.transform = '';
+    box2.style.opacity = '1';
+}
 
 //thx ChatGPT
 function swapBoxes() {
@@ -357,7 +330,8 @@ function swapBoxes() {
         //box2.style.transform = `translateY(${totalBox3Height - totalBox1Height}px)`;
         box3.style.transform = `translateY(-${totalBox1Height + totalBox2Height}px)`;
     
-        setTimeout(() => {
+        swap_timeout_id = setTimeout(() => {
+            swap_timeout_id = null;
             mainContent.insertBefore(box3, box1);
             mainContent.insertBefore(box1, null);  // Place box1 at the end
 
@@ -375,7 +349,8 @@ function swapBoxes() {
         box2.style.transform = `translateY(${totalBox1Height - totalBox3Height}px)`;
         box3.style.transform = `translateY(${totalBox1Height + totalBox2Height}px)`;
     
-        setTimeout(() => {
+        swap_timeout_id = setTimeout(() => {
+            swap_timeout_id = null;
             mainContent.insertBefore(box1, box3);
             mainContent.insertBefore(box3, null);  // Place box3 at the end
 
@@ -450,142 +425,121 @@ function format_pace(dec_min, to_unit) {
     return decimal_pace_to_string(dec_min);
 }
 
+// With only one unit picked there is nothing to convert - show the result as-is
+const show_unconverted = (pace_dec) => format_pace(pace_dec, '');
+
 //Define unit conversions - a dict of functions!
-//from-unit | to-unit : function(pace_in_decimal_minutes) -> res_dec_min
+//from-unit | to-unit : function(pace_in_decimal_minutes) -> formatted string
 const convert_dict = {
     // hack solution for unfinished unit selections
-    '|': (x) => x,
-    '/mi|': (x) => x,
-    '/km|': (x) => x,
-    '/400m|': (x) => x,
-    '/200m|': (x) => x,
-    '|/mi': (x) => x,
-    '|/km': (x) => x,
-    '|/400m': (x) => x,
-    '|/200m': (x) => x,
-    '|mph': (x) => x,
-    '|km/h': (x) => x,
-    '|m/s': (x) => x,
+    '|': show_unconverted,
+    '/mi|': show_unconverted,
+    '/km|': show_unconverted,
+    '/400m|': show_unconverted,
+    '/200m|': show_unconverted,
+    '|/mi': show_unconverted,
+    '|/km': show_unconverted,
+    '|/400m': show_unconverted,
+    '|/200m': show_unconverted,
+    '|mph': show_unconverted,
+    '|km/h': show_unconverted,
+    '|m/s': show_unconverted,
     //now the actual conversions
-    '/mi|/km': function (pace_string){
-        let pace_dec = parse_pace(pace_string) //now in decimal minutes
+    '/mi|/km': function (pace_dec){
         let conv_dec = pace_dec/1.609344 // km per mile
         return format_pace(conv_dec, '/km')
     },
-    '/mi|/400m':function (pace_string){
-        let pace_dec = parse_pace(pace_string)
+    '/mi|/400m':function (pace_dec){
         let conv_dec = pace_dec/1609.344*400 //to 400s
         return format_pace(conv_dec, '/400m')
     },
-    '/mi|/200m':function (pace_string){
-        let pace_dec = parse_pace(pace_string)
+    '/mi|/200m':function (pace_dec){
         let conv_dec = pace_dec/1609.344*200
         return format_pace(conv_dec, '/200m')
     },
-    '/mi|mph':function (pace_string){
-        let pace_dec = parse_pace(pace_string) 
+    '/mi|mph':function (pace_dec){
         // So this is in minutes per mile
         let conv_dec = 1/(pace_dec/60) 
         return conv_dec.toFixed(1);
     },
-    '/mi|km/h':function (pace_string){
-        let pace_dec = parse_pace(pace_string) 
+    '/mi|km/h':function (pace_dec){
         let conv_dec = 1/(pace_dec/1.609344/60) 
         return conv_dec.toFixed(1);
     },
-    '/mi|m/s':function (pace_string){
-        let pace_dec = parse_pace(pace_string) 
+    '/mi|m/s':function (pace_dec){
         let conv_dec = 1/(pace_dec*60/1609.344) 
         return conv_dec.toFixed(2);
     },
-    '/km|/mi':function (pace_string){
-        let pace_dec = parse_pace(pace_string)
+    '/km|/mi':function (pace_dec){
         let conv_dec = pace_dec/(1/1.609344) // mi per km
         return format_pace(conv_dec, '/mi')
     },
-    '/km|/400m':function (pace_string){
-        let pace_dec = parse_pace(pace_string)
+    '/km|/400m':function (pace_dec){
         let conv_dec = pace_dec/2.5 //400s per km
         return format_pace(conv_dec, '/400m')
     },
-    '/km|/200m':function (pace_string){
-        let pace_dec = parse_pace(pace_string)
+    '/km|/200m':function (pace_dec){
         let conv_dec = pace_dec/5 //200s per km
         return format_pace(conv_dec, '/200m')
     },
-    '/km|mph':function (pace_string){
-        let pace_dec = parse_pace(pace_string) 
+    '/km|mph':function (pace_dec){
         let conv_dec = 1/(pace_dec*1.609344/60) 
         return conv_dec.toFixed(1);
     },
-    '/km|km/h':function (pace_string){
-        let pace_dec = parse_pace(pace_string) 
+    '/km|km/h':function (pace_dec){
         let conv_dec = 1/(pace_dec/60) 
         return conv_dec.toFixed(1);
     },
-    '/km|m/s':function (pace_string){
-        let pace_dec = parse_pace(pace_string) 
+    '/km|m/s':function (pace_dec){
         let conv_dec = 1/(pace_dec*60/1000) 
         return conv_dec.toFixed(2);
     },
-    '/400m|/mi':function (pace_string){
-        let pace_dec = parse_pace(pace_string)
+    '/400m|/mi':function (pace_dec){
         let conv_dec = pace_dec/400*1609.344 // via min per meter
         return format_pace(conv_dec, '/mi')
     },
-    '/400m|/km':function (pace_string){
-        let pace_dec = parse_pace(pace_string)
+    '/400m|/km':function (pace_dec){
         let conv_dec = pace_dec*2.5 // simple!
         return format_pace(conv_dec, '/km')
     },
-    '/400m|mph':function (pace_string){
-        let pace_dec = parse_pace(pace_string) 
+    '/400m|mph':function (pace_dec){
         let conv_dec = 1/(pace_dec*1609.344/400/60) 
         return conv_dec.toFixed(1);
     },
-    '/400m|km/h':function (pace_string){
-        let pace_dec = parse_pace(pace_string) 
+    '/400m|km/h':function (pace_dec){
         let conv_dec = 1/(pace_dec*1000/400/60) 
         return conv_dec.toFixed(1);
     },
-    '/400m|/200m':function (pace_string){
-        let pace_dec = parse_pace(pace_string)
+    '/400m|/200m':function (pace_dec){
         let conv_dec = pace_dec/2
         return format_pace(conv_dec, '/200m')
     },
-    '/400m|m/s':function (pace_string){
-        let pace_dec = parse_pace(pace_string)
+    '/400m|m/s':function (pace_dec){
         let conv_dec = 1/(pace_dec/400*60)
         return conv_dec.toFixed(2);
     },
     // /200m conversions
-    '/200m|/mi':function (pace_string){
-        let pace_dec = parse_pace(pace_string)
+    '/200m|/mi':function (pace_dec){
         let conv_dec = pace_dec/200*1609.344
         return format_pace(conv_dec, '/mi')
     },
-    '/200m|/km':function (pace_string){
-        let pace_dec = parse_pace(pace_string)
+    '/200m|/km':function (pace_dec){
         let conv_dec = pace_dec*5
         return format_pace(conv_dec, '/km')
     },
-    '/200m|/400m':function (pace_string){
-        let pace_dec = parse_pace(pace_string)
+    '/200m|/400m':function (pace_dec){
         let conv_dec = pace_dec*2
         return format_pace(conv_dec, '/400m')
     },
-    '/200m|mph':function (pace_string){
-        let pace_dec = parse_pace(pace_string)
+    '/200m|mph':function (pace_dec){
         let conv_dec = 1/(pace_dec*1609.344/200/60)
         return conv_dec.toFixed(1);
     },
-    '/200m|km/h':function (pace_string){
-        let pace_dec = parse_pace(pace_string)
+    '/200m|km/h':function (pace_dec){
         let conv_dec = 1/(pace_dec*1000/200/60)
         return conv_dec.toFixed(1);
     },
-    '/200m|m/s':function (pace_string){
-        let pace_dec = parse_pace(pace_string)
+    '/200m|m/s':function (pace_dec){
         let conv_dec = 1/(pace_dec/200*60)
         return conv_dec.toFixed(2);
     }
@@ -601,20 +555,14 @@ function convertPace() {
     //Cases to deal with: incomplete selection
     if (pace_res === '🤔') {
         converted_pace = '🤔' // Hmm...
-    } else if (from_units_string === '' && to_units_string === '') {
+    } else if (from_units_string === to_units_string) {
+        // Same unit (or neither picked): mirror the result line exactly
         converted_pace = pace_res;
-    } else if (from_units_string === to_units_string && from_units_string !== '') {
-        // Same unit: re-format for /400m and /200m to ensure decimals
-        if (from_units_string === '/400m' || from_units_string === '/200m') {
-            converted_pace = format_pace(parse_pace(pace_res), from_units_string);
-        } else {
-            converted_pace = pace_res;
-        }
     } else {
-        //use function from dict
+        //use function from dict, on the exact result - NOT the rounded display string
         const convert_string = `${from_units_string}|${to_units_string}`
         const convert_fxn = convert_dict[convert_string]
-        converted_pace = convert_fxn(pace_res)
+        converted_pace = convert_fxn(new_result)
     }
     // Drop leading 0: for sub-minute results (e.g. '0:57.0' -> '57.0')
     if (converted_pace.substring(0,2) === '0:') {
@@ -623,6 +571,8 @@ function convertPace() {
     //Set the result in DOM
     const convert_result_text = document.querySelector('#convert-res')
     convert_result_text.textContent = converted_pace
+    // Only label the converted line once there is a real conversion to label
+    document.querySelector('.result-units').textContent = from_units_string === '' ? '' : to_units_string;
 }
 
 
@@ -720,22 +670,28 @@ function applyState(state) {
     const equals_of_label = document.querySelector('.equals');
     const mainContent = document.querySelector('.flip-container');
     const box1 = document.querySelector('.pace-box');
+    const box2 = document.querySelector('.spacer');
     const box3 = document.querySelector('.percent-box');
-    const currently_flipped = flip_button.classList.contains('flipped');
+    // A flip animation still in flight would re-swap the boxes after we reorder them
+    cancelSwapBoxes();
 
-    if (state.flip_mode === 'is' && !currently_flipped) {
+    // Set the order outright - a cancelled animation may have left it half-swapped
+    if (state.flip_mode === 'is') {
         at_of_label.textContent = 'is';
         equals_of_label.textContent = 'of';
         flip_button.classList.add('flipped');
-        mainContent.insertBefore(box1, box3);
-        mainContent.insertBefore(box3, null);
-    } else if (state.flip_mode === 'of' && currently_flipped) {
+        // Flipped order: pace-box, spacer, percent-box
+        mainContent.appendChild(box1);
+        mainContent.appendChild(box2);
+        mainContent.appendChild(box3);
+    } else {
         at_of_label.textContent = 'of';
         equals_of_label.textContent = 'equals';
         flip_button.classList.remove('flipped');
-        // Restore default order: percent-box, spacer, pace-box
-        mainContent.insertBefore(box3, box1);
-        mainContent.insertBefore(box1, null);
+        // Default order: percent-box, spacer, pace-box
+        mainContent.appendChild(box3);
+        mainContent.appendChild(box2);
+        mainContent.appendChild(box1);
     }
 
     // 6. From/to unit buttons
