@@ -262,9 +262,17 @@ function decimal_pace_to_string_dec(pace_decimal){
 
 // So the swap button...should swap:
 //First let's just make the button itself rotate
-const flip_button = document.querySelector('.flip-button');
+//(select by id - #reset-button shares the .flip-button class purely for styling)
+const flip_button = document.getElementById('reverse-button');
 
 flip_button.addEventListener('click', () => {
+    //Ignore taps while a swap is still animating. swapBoxes() picks its branch from the
+    //live DOM order, which the pending timeout hasn't applied yet, so a second click would
+    //run the same branch twice and leave the boxes in a scrambled order.
+    if (swap_timeout_id !== null) {
+        return;
+    }
+
     let at_of_label = document.querySelector('.spacer-label');
     let equals_of_label = document.querySelector('.equals');
 
