@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workout Pace Percentage Calculator - from Running Writings</title>
     <link rel="icon" href="images/RW-favicon.png" type="image/png">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preload" href="fonts/roboto-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/pt-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" type="text/css" href="styles.css?v=1.2.0">
     <link rel="stylesheet" href="app-gallery.css?v=22e5443b">
     <script src="rw-storage.js?v=1.0.0" defer></script>
@@ -41,8 +41,8 @@
             <div class="flip-container width-80">
                 <div class="percent-box">
                     <div class="arrow-box">
-                        <button class="material-icons pct-button" id="pct-m5" title="-5%">keyboard_double_arrow_left</button>
-                        <button class="material-icons pct-button" id="pct-m1" title="-1%">keyboard_arrow_left</button>
+                        <button class="material-icons pct-button" id="pct-m5" title="-5%"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z"/></svg></button>
+                        <button class="material-icons pct-button" id="pct-m1" title="-1%"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg></button>
                     </div>
                     <div class="percent-text">
                         <div class="percent-digits digit">
@@ -53,43 +53,43 @@
                         </div>
                     </div>
                     <div class="arrow-box">
-                        <button class="material-icons pct-button" id="pct-p1" title="+1%">keyboard_arrow_right</button>
-                        <button class="material-icons pct-button" id="pct-p5" title="+5%">keyboard_double_arrow_right</button>
+                        <button class="material-icons pct-button" id="pct-p1" title="+1%"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg></button>
+                        <button class="material-icons pct-button" id="pct-p5" title="+5%"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M383-480 200-664l56-56 240 240-240 240-56-56 183-184Zm264 0L464-664l56-56 240 240-240 240-56-56 183-184Z"/></svg></button>
                     </div>
                 </div>
                 <div class="spacer">
                     <a href="#backward-calcs" class="i-note">?</a>
                     <div class="spacer-box spacer-label">of</div>
-                    <button class="material-icons flip-button" title="Reverse calculations">flip_camera_android</button>
+                    <button class="material-icons flip-button" title="Reverse calculations"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M480-80q-143 0-253-90T88-400h82q28 106 114 173t196 67q86 0 160-42.5T756-320H640v-80h240v240h-80v-80q-57 76-141 118T480-80Zm0-280q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35ZM80-560v-240h80v80q57-76 141-118t179-42q143 0 253 90t139 230h-82q-28-106-114-173t-196-67q-86 0-160 42.5T204-640h116v80H80Z"/></svg></button>
                 </div>
                 <div class="pace-box">
                     <div class="clock">
                         <div class="digitbox">
-                            <button class="material-icons svg-arrow" id="d1-up">expand_less</button>
+                            <button class="material-icons svg-arrow" id="d1-up"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="m296-345-56-56 240-240 240 240-56 56-184-184-184 184Z"/></svg></button>
                             <div class="digit" id="d1">5</div>
-                            <button class="material-icons svg-arrow" id="d1-down">expand_more</button>
+                            <button class="material-icons svg-arrow" id="d1-down"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z"/></svg></button>
                         </div>
                         <div class="digitbox colon">
                             <span class="digit">:</span>
                         </div>
                         <div class="digitbox">
-                            <button class="material-icons svg-arrow" id="d2-up">expand_less</button>
+                            <button class="material-icons svg-arrow" id="d2-up"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="m296-345-56-56 240-240 240 240-56 56-184-184-184 184Z"/></svg></button>
                             <div class="digit" id="d2">0</div>
-                            <button class="material-icons svg-arrow" id="d2-down">expand_more</button>
+                            <button class="material-icons svg-arrow" id="d2-down"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z"/></svg></button>
                         </div>
                         <div class="digitbox">
-                            <button class="material-icons svg-arrow" id="d3-up">expand_less</button>
+                            <button class="material-icons svg-arrow" id="d3-up"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="m296-345-56-56 240-240 240 240-56 56-184-184-184 184Z"/></svg></button>
                             <div class="digit" id="d3">0</div>
-                            <button class="material-icons svg-arrow" id="d3-down">expand_more</button>
+                            <button class="material-icons svg-arrow" id="d3-down"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z"/></svg></button>
                         </div>
                         <div class="dial-container hidden" id="decimal-container">
                             <div class="digitbox colon">
                                 <span class="digit">.</span>
                             </div>
                             <div class="digitbox">
-                                <button class="material-icons svg-arrow" id="d4-up">expand_less</button>
+                                <button class="material-icons svg-arrow" id="d4-up"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="m296-345-56-56 240-240 240 240-56 56-184-184-184 184Z"/></svg></button>
                                 <div class="digit" id="d4">0</div>
-                                <button class="material-icons svg-arrow" id="d4-down">expand_more</button>
+                                <button class="material-icons svg-arrow" id="d4-down"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z"/></svg></button>
                             </div>
                         </div>
                         <div class="hh-00-container">
@@ -120,7 +120,7 @@
                         <button class="unit-toggle" id="from-400">/400m</button>
                         <button class="unit-toggle" id="from-200">/200m</button>
                     </div>
-                    <span class="material-icons from-to-text">arrow_right_alt</span>
+                    <span class="material-icons from-to-text"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="m560-240-56-58 142-142H160v-80h486L504-662l56-58 240 240-240 240Z"/></svg></span>
                     <div class="button-group to-units">
                         <button class="unit-toggle" id="to-mi">/mi</button>
                         <button class="unit-toggle" id="to-km">/km</button>
@@ -140,7 +140,7 @@
             </div>
         </div>
         <div class="reset-box">
-            <button class="material-icons flip-button" title="Restore defaults" id="reset-button">history</button>
+            <button class="material-icons flip-button" title="Restore defaults" id="reset-button"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M480-120q-138 0-240.5-91.5T122-440h82q14 104 92.5 172T480-200q117 0 198.5-81.5T760-480q0-117-81.5-198.5T480-760q-69 0-129 32t-101 88h110v80H120v-240h80v94q51-64 124.5-99T480-840q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-480q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z"/></svg></button>
             <span class="reset-text">Restore defaults</span>
             <a href="#calculator-settings" class="i-note">?</a>
         </div>
@@ -157,28 +157,28 @@
             <a href="https://marathonexcellence.com/?utm_source=rw_apps&utm_medium=webapp&utm_campaign=pace_percents" class="i-note i-note-i">i</a><span>
                 To learn how to use percentage-based workouts, check out <a href="https://runningwritings.com/2023/12/percentage-based-training.html" class="rw-link">my article on percentage-based training</a>, and if you're training for the marathon, read my book, <a href="https://marathonexcellence.com/?utm_source=rw_apps&utm_medium=webapp&utm_campaign=pace_percents" class="rw-link plausible-event-name=Body+Book+Click">Marathon Excellence for Everyone</a>!</span></div>
                 <div class="about-container">
-                    <h2 id="how-to-use">How to use<a class="material-icons up" href="#top">arrow_upward</a></h2>
+                    <h2 id="how-to-use">How to use<a class="material-icons up" href="#top"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg></a></h2>
                     <p>This app calculates running paces for workouts that are designed to be done at specific percentages of race pace.</p>
                     <p>For example, if your workout is 4 x 1.25 mi at 95% of 5k pace, and your 5k pace is 5:00/mi, you can enter 95% and 5:00 in the app to find the correct pace for your workout (in this example, 5:15/mi).</p>
                     <p>If desired, you can also convert your pace to and from mile, kilometer, and 400m splits.</p>
                     <p>Percentage-based workouts are used by <a href="https://runningwritings.com/category/renato-canova">Renato Canova</a> and other top coaches when planning training sessions for some of the best runners in the world.</p>
                     <p>I've adopted this percentage-based framework in my own <a href="https://runningwritings.com/coaching-and-consulting">coaching</a> and have found it to be an incredibly versatile approach for everything from the 800m to ultra distances.</p>
                     <p>Calculating paces by hand gets tedious, so I made this app for the two most common use cases: calculating paces and percents "forward" to find workout paces from race pace, and "backward" to find what race pace would result in a given pace and percentage. </p>
-                    <h3 id="pace-vs-speed">Percent of pace vs. percent of speed<a class="material-icons up" href="#top">arrow_upward</a></h3>
+                    <h3 id="pace-vs-speed">Percent of pace vs. percent of speed<a class="material-icons up" href="#top"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg></a></h3>
                     <p>There are a <a href="https://runningwritings.com/2013/02/brief-thoughts-calculating-percentages.html">few intricacies to calculating percentages</a>; one of these is that percent of speed is not the same thing as percent of pace. See the linked article for an in-depth explanation of why.</p>
                     <p>Renato Canova's workouts all use percentage of pace. This approach has the advantage of being evenly-spaced and symmetric in increments of pace: 90% of 5:00 mile pace is 5:30, and 80% of 5:00 mile pace is 6:00 (i.e. each 10% jump is 30 seconds per mile). Percent of pace is the approach I use with my own training and coaching.</p>
                     <p>One consequence of the math behind taking percents of pace is that faster speeds are more finely-grained, which makes intuitive sense from a coaching perspective: effort-wise, there's a much bigger difference between 3:00/km and 3:05/km vs. 4:00/km and 4:05/km. Percent of speed works the opposite way: small percentage jumps are very big at high speeds, which is not desirable.</p>
                     <p>Scientific research typically uses percent of speed because of speed's linear relationship with distance covered per unit time. Percent of speed is evenly-spaced and symmetric in terms of speed (e.g. each 10% jump is an equal increment in miles per hour).</p>
                     <p>Do note that neither method is symmetric with respect to the reference speed: 120% of 80% of any speed does not return the original speed, regardless of how you define percentages.</p>
-                    <h3>Percentages are better than seconds per mile rules<a class="material-icons up" href="#top">arrow_upward</a></h3>
+                    <h3>Percentages are better than seconds per mile rules<a class="material-icons up" href="#top"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg></a></h3>
                     <p>Percentage-based workout paces have a significant advantage over simple additive rules like "tempo pace equals 5k pace plus 20 seconds per mile." These additive rules fail both for very fast and very slow runners; percentages of pace generalize to a much wider range of abilities.</p>
-                    <h3 id="backward-calcs">Forward and backward calculations<a class="material-icons up" href="#top">arrow_upward</a></h3>
-                    <p>Often, you'll have a workout that goes better than expected: suppose you ran five miles at 90% of 5k pace and had a great day, averaging 5:24/mi even though your plan was to run 5:30/mi. You can switch to "reverse mode" (just click the <span class="material-icons inline-icon">flip_camera_android</span> icon) to figure out what original pace would've yielded 5:24 at 90%—in this case, it's 4:55/mi.</p>
-                    <h3>Unit conversions<a class="material-icons up" href="#top">arrow_upward</a></h3>
+                    <h3 id="backward-calcs">Forward and backward calculations<a class="material-icons up" href="#top"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg></a></h3>
+                    <p>Often, you'll have a workout that goes better than expected: suppose you ran five miles at 90% of 5k pace and had a great day, averaging 5:24/mi even though your plan was to run 5:30/mi. You can switch to "reverse mode" (just click the <span class="material-icons inline-icon"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M480-80q-143 0-253-90T88-400h82q28 106 114 173t196 67q86 0 160-42.5T756-320H640v-80h240v240h-80v-80q-57 76-141 118T480-80Zm0-280q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35ZM80-560v-240h80v80q57-76 141-118t179-42q143 0 253 90t139 230h-82q-28-106-114-173t-196-67q-86 0-160 42.5T204-640h116v80H80Z"/></svg></span> icon) to figure out what original pace would've yielded 5:24 at 90%—in this case, it's 4:55/mi.</p>
+                    <h3>Unit conversions<a class="material-icons up" href="#top"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg></a></h3>
                         <p>For convenience, I also built in some simple unit conversions. Many of Renato Canova's workouts are kilometer-based, so I like being able to convert to and from miles, kilometers, and (for track workouts) 400m and 200m splits.</p>
                         <p>You'll notice that the percentage calculations are not affected by the unit conversions—this is by design; 90% of 5:00 is 5:30, regardless of whether that's in minutes per mile, minutes per kilometer, or minutes per 400m and minutes per 200m.</p>
                         <p>One note: When converting from 400m and 200m paces, <strong>decimal mode</strong> is automatically enabled to avoid giving the impression of false precision. You can optionally toggle decimal mode off or on with the <span class="inline-button">.00</span> button for any pace conversion if you are looking for better accuracy.</p>
-                        <h3>The 5% rule and other useful conversions<a class="material-icons up" href="#top">arrow_upward</a></h3>
+                        <h3>The 5% rule and other useful conversions<a class="material-icons up" href="#top"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg></a></h3>
                         <p>One reason percentages of pace are so convenient is the "<strong>5% rule</strong>": roughly speaking, a well-trained runner will slow down by 5% for every doubling of race distance. This means that the following <em>approximate</em> race conversions hold:</p>
                         <ul>
                             <li>10k pace is 95% of 5k pace</li>
@@ -195,7 +195,7 @@
                         <p>Your individual disposition as a runner, and your training status, will of course push these numbers up or down. As an example, with high school runners I almost always use more like 90-91% of 5k pace for lactate threshold because of "aerobic drift" - compared to more experienced runners, high schoolers run the 5k with greater reliance on their glycolytic energy system, and their performance in longer distances is proportionally worse when compared to more experienced runners with the same 5k PR.</p>
                         
                         <p>Conversely, I work with some marathon runners who, in top condition, can run the marathon only 3-4% slower than their half marathon pace, and who have a lactate threshold closer to 93% of 5k pace.</p>
-                        <h3>Suggested percent-based workouts<a class="material-icons up" href="#top">arrow_upward</a></h3>
+                        <h3>Suggested percent-based workouts<a class="material-icons up" href="#top"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg></a></h3>
                             <p>Here's a small sample of some of my favorite percentage-based workouts that I use across a wide variety of events: </p>
                             <div class="workout-table">
                                 <table>
@@ -241,18 +241,18 @@
                                 </table>
                                 
                             </div>
-                            <h2 id="calculator-settings">Calculator settings<a class="material-icons up" href="#top">arrow_upward</a></h2>
-                            <p>This calculator will remember your settings in your browser's local storage. So, when you come back to the calculator later, you'll be able to pick up where you left off. You can reset all settings to their defaults using the <span class="material-icons inline-icon">history</span> button.</p>
-                            <h2  id="get-updates">Get updates<a class="material-icons up" href="#top">arrow_upward</a></h2>
+                            <h2 id="calculator-settings">Calculator settings<a class="material-icons up" href="#top"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg></a></h2>
+                            <p>This calculator will remember your settings in your browser's local storage. So, when you come back to the calculator later, you'll be able to pick up where you left off. You can reset all settings to their defaults using the <span class="material-icons inline-icon"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M480-120q-138 0-240.5-91.5T122-440h82q14 104 92.5 172T480-200q117 0 198.5-81.5T760-480q0-117-81.5-198.5T480-760q-69 0-129 32t-101 88h110v80H120v-240h80v94q51-64 124.5-99T480-840q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-480q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z"/></svg></span> button.</p>
+                            <h2  id="get-updates">Get updates<a class="material-icons up" href="#top"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg></a></h2>
                             <p>If you want to find out when I update this app, or get notified when I build new apps and publish new running research on my website, sign up for my email list with this form!</p>
                             <div class="newsletter-block">
                                 <script async src="https://eomail6.com/form/187bb3d4-92e9-11ed-8dcb-9536633250ee.js" data-form="187bb3d4-92e9-11ed-8dcb-9536633250ee"></script>
                             </div>
                             <p> I have several other apps, tech-based projects and long-format articles on running that are currently in the works. You'll be the first to know when I have new content coming out.</p>
-                            <h2 id="contact">Contact<a class="material-icons up" href="#top">arrow_upward</a></h2>
+                            <h2 id="contact">Contact<a class="material-icons up" href="#top"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg></a></h2>
                             <p>If you've got feedback, want to see a new feature, found a bug, or just want to chat, please reach out! I read every email I receive, and I do my best to respond. You can reach me at <strong><a class="email" href="mailto:john@runningwritings.com">john@runningwritings.com</a></strong>.</p>
                             <p>I'm also on <a href="https://x.com/JDruns">Twitter/X</a>, but the best way to follow my work is definitely my <strong><a href="https://runningwritings.eo.page/news-and-notes-signup">email list!</a></strong></p>
-                            <h2 id="support">Support my work<a class="material-icons up" href="#top">arrow_upward</a></h2>
+                            <h2 id="support">Support my work<a class="material-icons up" href="#top"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg></a></h2>
                             <p>If you're training for the marathon, be sure to check out my new book, <strong><a href="https://amzn.to/43mIH2B" class="plausible-event-name=Body+Book+Click">Marathon Excellence for Everyone</a></strong>. It covers the modern approach to marathon training, including training plans, racing strategies, and the latest science on training.</p>
                             <p>If you live outside of the United States, there is also a <strong><a href="https://amzn.to/3LzimIB" class="plausible-event-name=Body+Book+Click">Metric Edition of Marathon Excellence</a></strong> available, with all workouts and paces in kilometers!</p>
                             <div class="book-cta-module">
@@ -267,7 +267,7 @@
                     </div>
                     <div class="footer">
                         Made by <a class="author-link" href="https://www.runningwritings.com">John Davis</a>
-                        <a href="https://github.com/johnjdavisiv/pace-percents" target="_blank"><i class="fa fa-github github-icon"></i></a>
+                        <a href="https://github.com/johnjdavisiv/pace-percents" target="_blank"><svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
                     </div>
                     <script async src="https://eomail6.com/form/1c0d1c8c-8b6f-11f0-af9a-af63b4293a21.js" data-form="1c0d1c8c-8b6f-11f0-af9a-af63b4293a21"></script>
                 </body>
