@@ -581,7 +581,6 @@ function convertPace() {
 // ============================================================
 
 const BANNER_COOKIE_DAYS = 30;
-const STATE_COOKIE_DAYS = 365;
 
 function setCookie(name, value, days) {
     const date = new Date();
@@ -606,9 +605,10 @@ function clearCookie(name) {
     document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=Lax";
 }
 
-// --- State persistence ---
+// --- State persistence (shared localStorage layer, rw-storage.js) ---
+const APP_ID = 'pace-percent';   // localStorage key rw.pace-percent.v1
 
-function saveStateToCookie() {
+function saveState() {
     const state = {
         version: 1,
         dials: {
@@ -625,14 +625,17 @@ function saveStateToCookie() {
         to_unit: to_units_string,
         remember_pace: remember_pace
     };
-    setCookie('pacePercentsCalc', JSON.stringify(state), STATE_COOKIE_DAYS);
+    RWStorage.save(APP_ID, state, remember_pace);
 }
 
-function loadStateFromCookie() {
-    const raw = getCookie('pacePercentsCalc');
-    if (!raw) return null;
-    try {
-        const state = JSON.parse(raw);
+function loadSavedState() {
+    // Shared localStorage layer (rw-storage.js). Imports the old cookie once, then deletes it.
+    const saved = RWStorage.load(APP_ID, { legacyCookie: 'pacePercentsCalc' });
+    remember_pace = saved.remember;
+    const remember_toggle_el = document.getElementById('remember-toggle');
+    if (remember_toggle_el) remember_toggle_el.checked = remember_pace;
+    if (!saved.state) return null;    try {
+        const state = saved.state;
         if (state.version !== 1) return null;
         return state;
     } catch (e) {
@@ -732,7 +735,7 @@ function applyState(state) {
 const _originalUpdateResult = updateResult;
 updateResult = function() {
     _originalUpdateResult();
-    saveStateToCookie();
+    saveState();
 };
 
 // Also save when unit buttons are clicked (from/to handlers already call convertPace,
@@ -745,17 +748,17 @@ const reset_button = document.getElementById('reset-button');
 reset_button.addEventListener('click', () => {
     // Preserve the user's remember-pace preference across resets
     const preserved_remember = remember_pace;
-    clearCookie('pacePercentsCalc');
+    RWStorage.clear(APP_ID);
     applyState(DEFAULT_STATE);
     remember_pace = preserved_remember;
-    saveStateToCookie();
+    saveState();
 });
 
 // --- Remember-pace toggle ---
 const remember_toggle = document.getElementById('remember-toggle');
 remember_toggle.addEventListener('change', () => {
     remember_pace = remember_toggle.checked;
-    saveStateToCookie();
+    saveState();
 });
 
 // --- Initialization ---
@@ -774,20 +777,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Calculator state
-    const savedState = loadStateFromCookie();
+    // loadSavedState() also restores the Remember-settings preference and toggle;
+    // with the preference off it returns null, so the HTML defaults are used.
+    const savedState = loadSavedState();
     if (savedState) {
-        // Old cookies (pre-remember-pace) are missing this field — treat as true
-        const should_remember = savedState.remember_pace !== false;
-        remember_pace = should_remember;
-        remember_toggle.checked = should_remember;
-        if (should_remember) {
+        try {
             applyState(savedState);
-        } else {
-            // Honor the opt-out: show defaults, but keep the cookie updating
-            updateResult();
+        } catch (e) {
+            RWStorage.clear(APP_ID);
+            applyState(DEFAULT_STATE);
         }
     } else {
-        // No cookie — HTML defaults are already set, just compute initial result
         updateResult();
     }
 });
