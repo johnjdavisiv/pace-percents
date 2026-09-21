@@ -12,3 +12,11 @@ Serverless Javascript app to calculate percentages of race pace for Renato Canov
 [Find the app here!](https://apps.runningwritings.com/pace-percent/)  
 
   
+
+## Build and deploy
+
+```
+npm run build      # stamps this app's own css/js with today's date, then assembles dist/ (exactly the upload set)
+```
+
+Deploy = upload the contents of `dist/` to the SiteGround path the build prints. The build fails if a referenced asset is missing, if a page points at a file that is not in `dist/`, or if a `?v=dev` stamp is left. `tools/build-dist.mjs` and `tools/stamp.mjs` are byte-identical across the RW web apps; this app's file list is `rwBuild` in `package.json`.
